@@ -1,0 +1,4 @@
+/home/chao/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/chao/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/chao/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/libff.dir
+/home/chao/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/siw.dir

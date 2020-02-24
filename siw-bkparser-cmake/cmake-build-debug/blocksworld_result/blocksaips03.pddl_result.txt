@@ -1,0 +1,6 @@
+(STACK A B)
+(PICK-UP A)
+(STACK B C)
+(PICK-UP B)
+(STACK C D)
+(UNSTACK C B)

@@ -1,0 +1,22 @@
+Nodes generated during search: 5276
+Nodes expanded during search: 2784
+IW search completed in 15.2613 secs
+
+
+Nodes generated during search: 4386
+Nodes expanded during search: 2587
+IW search completed in 14.1432 secs
+
+Try allocate size: 0.00467969 MB
+Plan found with cost: 116
+Total time: 727.057
+Nodes generated during search: 46151
+Nodes expanded during search: 30453
+IW search completed in 727.057 secs
+
+Try allocate size: 0.00467969 MB
+Plan found with cost: 94
+Total time: 746.061
+Nodes generated during search: 42656
+Nodes expanded during search: 31294
+IW search completed in 746.061 secs
