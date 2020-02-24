@@ -1,0 +1,6 @@
+(PICK-UP B)
+(STACK B A)
+(PICK-UP C)
+(STACK C B)
+(PICK-UP D)
+(STACK D C)
