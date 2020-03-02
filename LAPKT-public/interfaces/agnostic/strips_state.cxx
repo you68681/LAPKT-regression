@@ -192,6 +192,47 @@ State* State::regress_through( const Action& a ) const
 	return succ;
 }
 
+State* State::regress_through_without_check( const Action& a ) const
+    {
+
+        State* succ = new State( problem() );
+        for ( unsigned k = 0; k < m_fluent_vec.size(); k++ )
+            if ( !a.asserts( m_fluent_vec[k] ) )
+            {
+                //Check Conditional Effects
+                if( !a.ceff_vec().empty() )
+                {
+                    bool asserts = false;
+                    for( unsigned i = 0; i < a.ceff_vec().size() && !asserts; i++ )
+                    {
+                        Conditional_Effect* ce = a.ceff_vec()[i];
+                        if( ce->can_be_applied_on( *this, true) )
+                            if( ce->asserts( m_fluent_vec[k] ) )
+                                asserts = true;
+                    }
+                    if( !asserts )
+                        succ->set( m_fluent_vec[k] );
+                }
+                else
+                    succ->set( m_fluent_vec[k] );
+            }
+
+        succ->set( a.prec_vec() );
+
+        //Add Conditional Effects
+        if( !a.ceff_vec().empty() )
+        {
+            for( unsigned i = 0; i < a.ceff_vec().size(); i++ )
+            {
+                Conditional_Effect* ce = a.ceff_vec()[i];
+                if( ce->can_be_applied_on( *this, true ) )
+                    succ->set( ce->prec_vec() );
+            }
+        }
+
+        return succ;
+    }
+
 void State::progress_lazy_state(const Action* a, Fluent_Vec* added, Fluent_Vec* deleted){
 	
 	

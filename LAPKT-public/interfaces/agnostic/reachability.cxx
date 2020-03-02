@@ -20,14 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <reachability.hxx>
 #include <action.hxx>
-
-
+#include "bkd_search_prob.hxx"
 
 namespace aptk {
 
 namespace agnostic {
 
-Reachability_Test::Reachability_Test( const STRIPS_Problem& p )
+Reachability_Test::Reachability_Test( const bkd_Search_Problem& prob, const STRIPS_Problem& p )
 	: m_problem( p )
 {
 	m_reachable_atoms.resize( m_problem.fluents().size() );
@@ -35,10 +34,15 @@ Reachability_Test::Reachability_Test( const STRIPS_Problem& p )
     m_reachable_reg.resize( m_problem.fluents().size() );
     m_reg_next.resize( m_problem.fluents().size() );
 	m_action_mask.resize( m_problem.actions().size() );
+    h2= new H2_Fwd (prob);
+
+    h2->eval( *(prob.get_goal()), h_val );
+
 }
 
 Reachability_Test::~Reachability_Test()
 {
+
 }
 
 void	Reachability_Test::initialize( const Fluent_Vec& s)
@@ -90,6 +94,7 @@ bool	Reachability_Test::apply_actions() {
 	bool fixed_point = true;
 	m_reach_next = m_reachable_atoms;
 	m_reg_next  = m_reachable_reg;
+	state_reg   = state_processed;
 
 	for ( unsigned i = 0; i < m_problem.actions().size(); i++ )
 	{
@@ -107,6 +112,8 @@ bool	Reachability_Test::apply_actions() {
 //        }
 
 //
+
+
 
         for ( unsigned j = 0; j < pi.size(); j++ )
             if ( m_reachable_reg[pi[j]] )
@@ -130,7 +137,16 @@ bool	Reachability_Test::apply_actions() {
 //			if ( !m_reachable_atoms[pi[j]] )
 		
 		if ( !applicable || ! relevant) continue;
-		
+
+        State* succ = state_processed->regress_through_without_check(*a);
+
+
+        bool result=(h2->is_mutex(succ->fluent_vec()));
+
+        if (result) {
+            continue;
+        }
+        state_reg=state_reg->regress_through_without_check(*a);
 		#ifdef DEBUG
 		std::cout << "Applying " << a->signature() << std::endl;
 		#endif
@@ -152,9 +168,6 @@ bool	Reachability_Test::apply_actions() {
 
 			if ( !m_reachable_atoms[ai[j]] ) {
 				m_reach_next[ai[j]] = true;
-				if (m_reach_next[22]== true){
-				 a->print(this->m_problem,std::cout);
-				}
 				fixed_point = false;
 			}
 		}
@@ -200,6 +213,7 @@ bool	Reachability_Test::apply_actions() {
 		}
 		if ( all_ce_applied ) m_action_mask.set(i);
 	}
+	state_processed=state_reg;
 	m_reachable_atoms = m_reach_next;
 	m_reachable_reg=m_reg_next;
 	return fixed_point;
@@ -292,8 +306,9 @@ bool	Reachability_Test::is_reachable( const Fluent_Vec& s, const Fluent_Vec& g, 
 	return check(g);
 }
 
-bool	Reachability_Test::is_reachable( const Fluent_Vec& s, const Fluent_Vec& g, const Bit_Set& excluded )
+bool	Reachability_Test::is_reachable(State *state, const Fluent_Vec& s, const Fluent_Vec& g, const Bit_Set& excluded )
 {
+    state_processed=state;
 	initialize(s);
 
 	m_action_mask.add(excluded);	

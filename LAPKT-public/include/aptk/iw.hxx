@@ -54,6 +54,7 @@ public:
 		h2= new H2_Fwd (search_problem);
 
         h2->eval( *(search_problem.get_goal()), h_val );
+//        std::cout<<"******"<<std::endl;
 //        h2->print_values(std::cout);
 //        h2->print_values(std::cout);
 	}

@@ -49,7 +49,7 @@ public:
 	Landmarks_Graph_Generator( const Search_Model& prob ) 
 	:  m_strips_model( prob.task() ), m_only_goals( false ), m_goal_ordering(true), m_h1( prob ), m_verbose( false ), m_collect_lm_in_init(false)
 	{
-		m_reachability = new aptk::agnostic::Reachability_Test( prob.task() );
+		m_reachability = new aptk::agnostic::Reachability_Test(prob, prob.task() );
 	}
 
 	virtual ~Landmarks_Graph_Generator() {

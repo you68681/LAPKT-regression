@@ -142,9 +142,13 @@ CMakeFiles/siw.dir/home/chao/LAPKT-public/interfaces/agnostic/mutex_set.cxx.o
 CMakeFiles/siw.dir/home/chao/LAPKT-public/interfaces/agnostic/reachability.cxx.o
  /home/chao/LAPKT-public/include/aptk/bit_array.hxx
  /home/chao/LAPKT-public/include/aptk/bit_set.hxx
+ /home/chao/LAPKT-public/include/aptk/heuristic.hxx
+ /home/chao/LAPKT-public/include/aptk/search_prob.hxx
  /home/chao/LAPKT-public/interfaces/agnostic/action.hxx
+ /home/chao/LAPKT-public/interfaces/agnostic/bkd_search_prob.hxx
  /home/chao/LAPKT-public/interfaces/agnostic/cond_eff.hxx
  /home/chao/LAPKT-public/interfaces/agnostic/fluent.hxx
+ /home/chao/LAPKT-public/interfaces/agnostic/h_2.hxx
  /home/chao/LAPKT-public/interfaces/agnostic/match_tree.hxx
  /home/chao/LAPKT-public/interfaces/agnostic/mutex_set.hxx
  /home/chao/LAPKT-public/interfaces/agnostic/reachability.cxx

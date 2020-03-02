@@ -62,6 +62,8 @@ public:
 
 	State*	regress_through( const Action& a ) const;
 
+	State*  regress_through_without_check( const Action& a ) const;
+
 	void    progress_lazy_state(const Action* a, Fluent_Vec* added = NULL, Fluent_Vec* deleted = NULL);
 
 	void    regress_lazy_state(const Action* a, Fluent_Vec* added = NULL, Fluent_Vec* deleted = NULL);

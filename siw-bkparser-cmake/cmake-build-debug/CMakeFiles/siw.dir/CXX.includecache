@@ -24,6 +24,22 @@ cassert
 limits
 -
 
+/home/chao/LAPKT-public/include/aptk/heuristic.hxx
+aptk/search_prob.hxx
+-
+vector
+-
+
+/home/chao/LAPKT-public/include/aptk/search_prob.hxx
+iostream
+-
+cassert
+-
+limits
+-
+vector
+-
+
 /home/chao/LAPKT-public/interfaces/agnostic/action.hxx
 types.hxx
 -
@@ -34,6 +50,18 @@ strips_state.hxx
 cond_eff.hxx
 -
 iosfwd
+-
+
+/home/chao/LAPKT-public/interfaces/agnostic/bkd_search_prob.hxx
+strips_prob.hxx
+-
+aptk/search_prob.hxx
+-
+action.hxx
+-
+strips_state.hxx
+-
+h_2.hxx
 -
 
 /home/chao/LAPKT-public/interfaces/agnostic/cond_eff.hxx
@@ -48,6 +76,26 @@ strips_state.hxx
 types.hxx
 -
 strips_prob.hxx
+-
+
+/home/chao/LAPKT-public/interfaces/agnostic/h_2.hxx
+aptk/search_prob.hxx
+-
+aptk/heuristic.hxx
+-
+aptk/bit_set.hxx
+-
+strips_state.hxx
+-
+strips_prob.hxx
+-
+boost/circular_buffer.hpp
+-
+vector
+-
+list
+-
+iosfwd
 -
 
 /home/chao/LAPKT-public/interfaces/agnostic/match_tree.hxx
@@ -75,6 +123,8 @@ reachability.hxx
 -
 action.hxx
 -
+bkd_search_prob.hxx
+/home/chao/LAPKT-public/interfaces/agnostic/bkd_search_prob.hxx
 
 /home/chao/LAPKT-public/interfaces/agnostic/reachability.hxx
 strips_prob.hxx
@@ -84,6 +134,12 @@ types.hxx
 aptk/bit_set.hxx
 -
 vector
+-
+h_2.hxx
+/home/chao/LAPKT-public/interfaces/agnostic/h_2.hxx
+bkd_search_prob.hxx
+/home/chao/LAPKT-public/interfaces/agnostic/bkd_search_prob.hxx
+aptk/search_prob.hxx
 -
 
 /home/chao/LAPKT-public/interfaces/agnostic/strips_prob.hxx

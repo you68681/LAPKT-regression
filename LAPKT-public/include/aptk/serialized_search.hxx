@@ -46,7 +46,7 @@ public:
 
 	Serialized_Search( 	const Search_Model& search_problem ) 
 		: Search_Strategy( search_problem ), m_consistency_test(true), m_closed_goal_states( NULL )  {	   
-		m_reachability = new aptk::agnostic::Reachability_Test( this->problem().task() );
+		m_reachability = new aptk::agnostic::Reachability_Test(search_problem, this->problem().task() );
         h2= new H2_Fwd (search_problem);
 
         h2->eval( *(search_problem.get_goal()), h_val );
@@ -210,7 +210,7 @@ public:
 
 					static Bit_Set excluded( this->problem().num_actions() );
 					exclude_actions( excluded );
-
+/*
 					bool continue_flag= true;
 
 					while (continue_flag){
@@ -246,17 +246,16 @@ public:
 
 
                         }
-
 					}
 
-
+*/
 
 					#ifdef DEBUG
 						if ( this->verbose() )
 							debug_info( s, unachieved );
 					#endif
 					
-					if(m_reachability->is_reachable( s->fluent_vec() , this->problem().task().goal() , excluded  ) ) {
+					if(m_reachability->is_reachable( s, s->fluent_vec() , this->problem().task().goal() , excluded  ) ) {
                         std::cout << "\t New Consistent Goal " << this->problem().task().fluents()[ *it ]->signature()<<std::endl;
                         new_goal_achieved = true;
                     }
