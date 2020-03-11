@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __FWD_SEARCH_PROB__
-#define __FWD_SEARCH_PROB__
+#ifndef __BWD_SEARCH_PROB__
+#define __BWD_SEARCH_PROB__
 
 #include <strips_prob.hxx>
 #include <aptk/search_prob.hxx>
@@ -34,16 +34,20 @@ class State;
 
 namespace agnostic {
 
+class Fwd_Search_Problem;
 
-class bkd_Search_Problem : public Search_Problem<State> {
+class bwd_Search_Problem : public Search_Problem<State> {
 public:
 
-	bkd_Search_Problem( STRIPS_Problem*);
-	virtual ~bkd_Search_Problem();
+	bwd_Search_Problem( STRIPS_Problem*);
+	virtual ~bwd_Search_Problem();
 	virtual	int		num_actions() const;
 	virtual State*		make_state( const Fluent_Vec& s ) const;
-	virtual State*		init() const;
-    virtual State*		get_goal() const;
+	virtual State*		init_state () const;
+    Fluent_Vec&		init()	  			{ return task().goal(); }
+    Fluent_Vec&		goal()	  			{ return task().init(); }
+    const Fluent_Vec&	init() const  			{ return task().goal(); }
+    const Fluent_Vec&	goal() const  			{ return task().init(); }
 	virtual bool		goal( const State& s ) const;
 	bool	                lazy_goal( const State& s, Action_Idx a  ) const;
 	virtual bool		is_applicable( const State& s, Action_Idx a ) const;
@@ -57,10 +61,13 @@ public:
 	virtual void		print( std::ostream& os ) const;;
 	STRIPS_Problem&		task() 		{ return *m_task; }
 	const STRIPS_Problem&	task() const 	{ return *m_task; }
+	void set_h2_fwd( H2_Heuristic<Fwd_Search_Problem>* h2 ) { m_h2_fwd = h2;}
+    H2_Heuristic<Fwd_Search_Problem>& h2_fwd() {return *m_h2_fwd;}
+    const H2_Heuristic<Fwd_Search_Problem>&  h2_fwd() const {return *m_h2_fwd;}
 
 	class Action_Iterator {
 	public:
-		Action_Iterator( const bkd_Search_Problem& p )
+		Action_Iterator( const bwd_Search_Problem& p )
 		  :       m_problem(p) {
 		}
         
@@ -82,7 +89,7 @@ public:
 		}	
 	
 	private:
-		const bkd_Search_Problem& 		m_problem;
+		const bwd_Search_Problem& 		m_problem;
 		std::vector<Action_Idx>			m_app_set;
 		std::vector<Action_Idx>::iterator	m_it;
  	};
@@ -90,7 +97,7 @@ public:
 private:
 
 	STRIPS_Problem*		m_task;
-
+    H2_Heuristic<Fwd_Search_Problem>*                  m_h2_fwd;
 };
 
 }

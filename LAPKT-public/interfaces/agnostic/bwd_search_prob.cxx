@@ -18,27 +18,27 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <bkd_search_prob.hxx>
+#include <bwd_search_prob.hxx>
 #include <algorithm>
 
 namespace aptk {
 
 namespace agnostic {
 
-bkd_Search_Problem::bkd_Search_Problem( STRIPS_Problem* p )
+bwd_Search_Problem::bwd_Search_Problem(STRIPS_Problem* p )
 	: m_task( p ){
 }
 
-bkd_Search_Problem::~bkd_Search_Problem() {
+bwd_Search_Problem::~bwd_Search_Problem() {
 }
 
 
-int	bkd_Search_Problem::num_actions() const {
+int	bwd_Search_Problem::num_actions() const {
 	return task().num_actions();	
 }
 
 
-State*	bkd_Search_Problem::make_state( const Fluent_Vec& v ) const {
+State*	bwd_Search_Problem::make_state( const Fluent_Vec& v ) const {
 	State* s = new State( task() );
 
  	for(unsigned i = 0; i < v.size(); i++)
@@ -51,12 +51,12 @@ State*	bkd_Search_Problem::make_state( const Fluent_Vec& v ) const {
 	return s;
 }
 
-State*	bkd_Search_Problem::init() const {
+State*	bwd_Search_Problem::init_state() const {
 
 	State* s0 = new State( task() );
     
- 	for(unsigned i = 0; i < task().init().size(); i++)
-      		s0->set(task().init()[i]);
+ 	for(unsigned i = 0; i < task().goal().size(); i++)
+      		s0->set(task().goal()[i]);
 
 	std::sort( s0->fluent_vec().begin(), s0->fluent_vec().end() );
 	s0->update_hash();
@@ -66,26 +66,15 @@ State*	bkd_Search_Problem::init() const {
 	return s0;
 }
 
-State*	bkd_Search_Problem::get_goal() const {
-
-        State* s0 = new State( task() );
-
-        for(unsigned i = 0; i < task().goal().size(); i++)
-            s0->set(task().goal()[i]);
-        std::sort( s0->fluent_vec().begin(), s0->fluent_vec().end() );
-        return s0;
-    }
-
-
-bool	bkd_Search_Problem::goal( const State& s ) const {
-	return this->make_state(this->m_task->goal())->entails(s.fluent_vec() );
+bool	bwd_Search_Problem::goal( const State& s ) const {
+	return s.entails( task().init() );
 
 }
 
-bool	bkd_Search_Problem::lazy_goal( const State& s, Action_Idx a  ) const {
+bool	bwd_Search_Problem::lazy_goal( const State& s, Action_Idx a  ) const {
 
 	const Action& act = *(task().actions().at(a));
-	const Fluent_Vec& g = task().goal();
+	const Fluent_Vec& g = task().init();
 	for ( unsigned i = 0; i < g.size(); i++ )
 		if ( !s.fluent_set().isset(g[i]) && ( !act.asserts(g[i]) || act.retracts(g[i])) ) {
 			return false;
@@ -94,29 +83,29 @@ bool	bkd_Search_Problem::lazy_goal( const State& s, Action_Idx a  ) const {
 
 }
 
-bool	bkd_Search_Problem::is_applicable( const State& s, Action_Idx a ) const {
+bool	bwd_Search_Problem::is_applicable( const State& s, Action_Idx a ) const {
 
 	const Action& act = *(task().actions().at(a));
     return act.can_be_regressed_from(s);
 	//return act.can_be_applied_on(s);
 }
 
-void	bkd_Search_Problem::applicable_set( const State& s, std::vector<Action_Idx>& app_set ) const {
+void	bwd_Search_Problem::applicable_set( const State& s, std::vector<Action_Idx>& app_set ) const {
 	//m_task->applicable_actions( s, app_set );
 	m_task->applicable_actions_v2( s, app_set ); 
 }
 
-void	bkd_Search_Problem::applicable_set_v2( const State& s, std::vector<Action_Idx>& app_set ) const {
+void	bwd_Search_Problem::applicable_set_v2( const State& s, std::vector<Action_Idx>& app_set ) const {
 	m_task->applicable_actions_v2( s, app_set );
 }
 
-float	bkd_Search_Problem::cost( const State& s, Action_Idx a ) const {
+float	bwd_Search_Problem::cost( const State& s, Action_Idx a ) const {
 	const Action& act = *(task().actions().at(a));
 	return act.cost();
 }
 
 
-State * bkd_Search_Problem::next(const State& s, Action_Idx a)const  {
+State * bwd_Search_Problem::next(const State& s, Action_Idx a)const  {
 
 //    std::cout<<"NNNNNNNN"<<std::endl;
 //    s.print(std::cout);
@@ -132,18 +121,18 @@ State * bkd_Search_Problem::next(const State& s, Action_Idx a)const  {
 	return succ;
 }
 
-void bkd_Search_Problem::update_next(State& s) const {
+void bwd_Search_Problem::update_next(State& s) const {
 
     s.update_hash();
 
 }
-Fluent_Vec  bkd_Search_Problem::Vector_next(State& s) const {
+Fluent_Vec  bwd_Search_Problem::Vector_next(State& s) const {
 
         return s.fluent_vec();
 
 }
 
-State*	bkd_Search_Problem::next( const State& s, Action_Idx a, Fluent_Vec* added, Fluent_Vec* deleted ) const {
+State*	bwd_Search_Problem::next( const State& s, Action_Idx a, Fluent_Vec* added, Fluent_Vec* deleted ) const {
 	const Action& act = *(task().actions().at(a));
 	State* succ = s.progress_through( act, added, deleted );
 	succ->update_hash();
@@ -151,7 +140,7 @@ State*	bkd_Search_Problem::next( const State& s, Action_Idx a, Fluent_Vec* added
 }
 
 
-void	bkd_Search_Problem::print( std::ostream& os ) const {
+void	bwd_Search_Problem::print( std::ostream& os ) const {
 	task().print( os );
 }
 
