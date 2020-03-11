@@ -220,6 +220,7 @@ public:
 					static Bit_Set excluded( this->problem().num_actions() );
 					bool new_excluded = exclude_actions( excluded, persisting_goals );
 
+					//Check if other goals true in current states persist along with the goal candidate
 					while (new_excluded) {
                         new_excluded = false;
                         for (auto g : original_goal_candidates) {
