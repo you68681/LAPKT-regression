@@ -192,6 +192,17 @@ public:
 				leafs.push_back( (*it)->fluent() );				
 		}
 	}
+
+    void  get_leafs_regression( Fluent_Vec& leafs ){
+
+        for ( std::vector< Node* >::const_iterator it = m_lm_graph.begin(); it != m_lm_graph.end(); it++ ) {
+            if( (*it)->is_consumed() ) continue;
+            if(  (*it)->are_requirements_consumed() )
+                leafs.push_back( (*it)->fluent() );
+        }
+    }
+
+
 	
 
 	unsigned			num_landmarks() const			{ return m_lm_graph.size(); }
