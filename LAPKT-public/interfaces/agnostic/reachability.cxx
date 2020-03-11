@@ -20,13 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <reachability.hxx>
 #include <action.hxx>
-#include "bkd_search_prob.hxx"
+#include "bwd_search_prob.hxx"
 
 namespace aptk {
 
 namespace agnostic {
 
-Reachability_Test::Reachability_Test( const bkd_Search_Problem& prob, const STRIPS_Problem& p )
+Reachability_Test::Reachability_Test( const STRIPS_Problem& p )
 	: m_problem( p )
 {
 	m_reachable_atoms.resize( m_problem.fluents().size() );
@@ -34,9 +34,7 @@ Reachability_Test::Reachability_Test( const bkd_Search_Problem& prob, const STRI
     m_reachable_reg.resize( m_problem.fluents().size() );
     m_reg_next.resize( m_problem.fluents().size() );
 	m_action_mask.resize( m_problem.actions().size() );
-    h2= new H2_Fwd (prob);
 
-    h2->eval( *(prob.get_goal()), h_val );
 
 }
 
@@ -93,8 +91,6 @@ bool	Reachability_Test::apply_actions() {
 
 	bool fixed_point = true;
 	m_reach_next = m_reachable_atoms;
-	m_reg_next  = m_reachable_reg;
-	state_reg   = state_processed;
 
 	for ( unsigned i = 0; i < m_problem.actions().size(); i++ )
 	{
@@ -105,62 +101,30 @@ bool	Reachability_Test::apply_actions() {
 //		const Fluent_Vec&	pi = a->prec_vec();
         const Fluent_Vec&	pi = a->del_vec();
 		bool		applicable = true;
-//        std::vector<std::string> b = split(a->signature()," ");
-//        if (b.size()>2){
-//            if (b[1]==b[2]);
-//            continue;
-//        }
-
-//
 
 
-
-        for ( unsigned j = 0; j < pi.size(); j++ )
-            if ( m_reachable_reg[pi[j]] )
-            {
-                applicable = false;
-                break;
-            }
+//        for ( unsigned j = 0; j < pi.size(); j++ )
+//            if ( !m_reachable_atoms[pi[j]] )
+//            {
+//                applicable = false;
+//                break;
+//            }
 
         bool relevant = false;
 
         for ( unsigned k = 0; k < a->add_vec().size() && !relevant && applicable; k++ )
-            if ( m_reachable_atoms[ a->add_vec()[k] ] ) relevant = true;
+            if ( m_reachable_atoms[ a->add_vec()[k] ] )
+                relevant = true;
 
 
 
-
-//			{
-//				applicable = false;
-//				break;
-//			}//        for ( unsigned j = 0; j < pi.size(); j++ )
-//			if ( !m_reachable_atoms[pi[j]] )
-		
 		if ( !applicable || ! relevant) continue;
 
-        State* succ = state_processed->regress_through_without_check(*a);
-
-
-        bool result=(h2->is_mutex(succ->fluent_vec()));
-
-        if (result) {
-            continue;
-        }
-        state_reg=state_reg->regress_through_without_check(*a);
 		#ifdef DEBUG
 		std::cout << "Applying " << a->signature() << std::endl;
-		#endif
+        #endif
 		
 		// Apply effects
-//		const Fluent_Vec& ai = a->add_vec();
-//		for ( unsigned j = 0; j < ai.size(); j++ ) {
-//
-//			if ( !m_reachable_atoms[ai[j]] ) {
-//				m_reach_next[ai[j]] = true;
-//				fixed_point = false;
-//			}
-//		}
-
         //regression for delete the add_vec
 
         const Fluent_Vec& ai = a->prec_vec();
@@ -171,14 +135,6 @@ bool	Reachability_Test::apply_actions() {
 				fixed_point = false;
 			}
 		}
-
-        const Fluent_Vec& ad = a->add_vec();
-        for ( unsigned j = 0; j < ad.size(); j++ ) {
-            if ( m_reachable_reg[ad[j]] ) {
-                m_reg_next[ad[j]] = false;
-                fixed_point = false;
-            }
-        }
 
 
 		bool all_ce_applied = true;
@@ -213,9 +169,7 @@ bool	Reachability_Test::apply_actions() {
 		}
 		if ( all_ce_applied ) m_action_mask.set(i);
 	}
-	state_processed=state_reg;
 	m_reachable_atoms = m_reach_next;
-	m_reachable_reg=m_reg_next;
 	return fixed_point;
 }
 
@@ -315,13 +269,13 @@ bool	Reachability_Test::is_reachable(State *state, const Fluent_Vec& s, const Fl
 	#ifdef DEBUG
 	std::cout << "Reachable atoms:" << std::endl;
 	print_reachable_atoms();
-	#endif	
+	#endif
 
 	while ( !apply_actions() ) {
 		#ifdef DEBUG
 		std::cout << "Reachable atoms:" << std::endl;
 		print_reachable_atoms();
-		#endif	
+		#endif
 
 		if ( check( g ) )	
 			return true;

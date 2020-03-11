@@ -25,11 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <types.hxx>
 #include <aptk/bit_set.hxx>
 #include <vector>
-#include "h_2.hxx"
-#include "bkd_search_prob.hxx"
 #include <aptk/search_prob.hxx>
-
-typedef         aptk::agnostic::H2_Heuristic<aptk::agnostic::bkd_Search_Problem>                  H2_Fwd;
 
 namespace aptk {
 
@@ -38,7 +34,7 @@ namespace agnostic {
 	class	Reachability_Test {
 	public:
 
-		Reachability_Test( const bkd_Search_Problem& prob, const STRIPS_Problem& p );
+		Reachability_Test( const STRIPS_Problem& p );
 		~Reachability_Test();
 
 		// Returns true if atom set g is reachable from state s 
@@ -65,7 +61,6 @@ namespace agnostic {
 		Bit_Set			m_action_mask;
 		State*          state_processed;
         State*          state_reg;
-        H2_Fwd*                  h2;
         float              h_val;
 
 
