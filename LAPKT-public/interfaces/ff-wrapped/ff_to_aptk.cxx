@@ -57,8 +57,8 @@ void	get_problem_description( std::string pddl_domain_path,
 	Fluent_Vec I, G;
 	FF::get_initial_state( I );
 	FF::get_goal_state( G );
-	STRIPS_Problem::set_init( strips_problem, G);
-	STRIPS_Problem::set_goal( strips_problem, I);
+	STRIPS_Problem::set_init( strips_problem, I);
+	STRIPS_Problem::set_goal( strips_problem, G);
 
 	//	std::cout << "Operators in problem:" << gnum_ef_conn << std::endl;
 

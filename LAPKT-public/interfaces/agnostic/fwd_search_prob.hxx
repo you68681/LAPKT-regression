@@ -42,7 +42,11 @@ public:
 
 	virtual	int		num_actions() const;
 	virtual State*		make_state( const Fluent_Vec& s ) const;
-	virtual State*		init() const;
+    Fluent_Vec&		init()	  			{ return task().init(); }
+    Fluent_Vec&		goal()	  			{ return task().goal(); }
+    const Fluent_Vec&	init() const  			{ return task().init(); }
+    const Fluent_Vec&	goal() const  			{ return task().goal(); }
+	virtual State*		init_state() const;
 	virtual bool		goal( const State& s ) const;
 	bool	                lazy_goal( const State& s, Action_Idx a  ) const;
 	virtual bool		is_applicable( const State& s, Action_Idx a ) const;

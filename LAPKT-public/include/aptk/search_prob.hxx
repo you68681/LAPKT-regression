@@ -45,7 +45,7 @@ public:
 	// MRJ: Returns the number of actions in the problem
 	virtual	int	num_actions() const = 0;
 	// MRJ: Returns initial state of the problem
-	virtual	State*	init() const = 0;
+	virtual	State*	init_state() const = 0;
 	// MRJ: Return true if s is a goal state
 	virtual bool	goal( const State& s ) const = 0;
 	// MRJ: Returns true if a is applicable on state s

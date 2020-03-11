@@ -50,7 +50,7 @@ State*	Fwd_Search_Problem::make_state( const Fluent_Vec& v ) const {
 	return s;
 }
 
-State*	Fwd_Search_Problem::init() const {
+State*	Fwd_Search_Problem::init_state() const {
 
 	State* s0 = new State( task() );
 
