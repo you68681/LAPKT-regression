@@ -58,7 +58,7 @@ public:
 
 	virtual bool	find_solution( float& cost, std::vector<Action_Idx>& plan ) {
 		
-		unsigned gsize = this->problem().task().goal().size();
+		unsigned gsize = this->problem().goal().size();
 		Search_Node* end = NULL;
 		State* new_init_state = NULL;
 		this->m_goals_achieved.clear();
@@ -74,7 +74,7 @@ public:
 		}
 		else{
 			this->m_goal_candidates.insert( this->m_goal_candidates.begin(), 
-							this->problem().task().goal().begin(), this->problem().task().goal().end() );
+							this->problem().goal().begin(), this->problem().goal().end() );
 		}
 
 		do{

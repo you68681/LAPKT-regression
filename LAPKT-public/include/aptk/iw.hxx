@@ -28,9 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <algorithm>
 #include <iostream>
-#include <h_2.hxx>
 
-typedef         aptk::agnostic::H2_Heuristic<aptk::agnostic::bkd_Search_Problem>                  H2_Fwd;
 
 namespace aptk {
 
@@ -51,12 +49,8 @@ public:
 	IW( 	const Search_Model& search_problem ) 
 	: BRFS< Search_Model >(search_problem), m_pruned_B_count(0), m_B( infty ), m_verbose( true ) {	   
 		m_novelty = new Abstract_Novelty( search_problem );
-		h2= new H2_Fwd (search_problem);
 
-        h2->eval( *(search_problem.get_goal()), h_val );
-//        std::cout<<"******"<<std::endl;
-//        h2->print_values(std::cout);
-//        h2->print_values(std::cout);
+
 	}
 
 	virtual ~IW() {
@@ -70,7 +64,7 @@ public:
 
 
 		if(!s)
-			this->m_root = new Search_Node( this->problem().init(), no_op, NULL );	
+			this->m_root = new Search_Node( this->problem().init_state(), no_op, NULL );
 		else
 			this->m_root = new Search_Node( s, no_op, NULL );
 
@@ -99,8 +93,8 @@ public:
 	}
 
 	float			bound() const			{ return m_B; }
-    H2_Fwd          get_h2()                {return h2;}
-	void			set_bound( float v ) 		{ 
+
+	void			set_bound( float v ) 		{
 		m_B = v;
 		m_novelty->set_arity( m_B );
 	}
@@ -160,7 +154,8 @@ protected:
 			//Lazy expansion
 			//Search_Node* n = new Search_Node( NULL , a, head, this->problem().task().actions()[ a ]->cost() );
 
-			bool result=(h2->is_mutex(this->problem().Vector_next(*succ)));
+
+			bool result = this->problem().h2_fwd().is_mutex( succ->fluent_vec() );
 			//std::cout<<result<<std::endl;
 			if (result) {
                 delete n;
@@ -217,6 +212,7 @@ protected:
 
 				this->open_node(n);
 //				std::cout<<"goal: "<<this->is_goal(n)<<std::endl;
+
 				if( this->is_goal( n ) )
 					return n;
 			}
@@ -234,7 +230,6 @@ protected:
 	unsigned				m_pruned_B_count;
 	float					m_B;
 	bool					m_verbose;
-    H2_Fwd*                  h2;
 };
 
 }
