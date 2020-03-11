@@ -42,22 +42,18 @@ public:
 
 	typedef		typename Search_Model::State_Type		                          State;
 	typedef 	Closed_List< Search_Node >			                          Closed_List_Type;
-    typedef         aptk::agnostic::H2_Heuristic<aptk::agnostic::bkd_Search_Problem>                  H2_Fwd;
 
 	Serialized_Search( 	const Search_Model& search_problem ) 
 		: Search_Strategy( search_problem ), m_consistency_test(true), m_closed_goal_states( NULL )  {	   
-		m_reachability = new aptk::agnostic::Reachability_Test(search_problem, this->problem().task() );
-        h2= new H2_Fwd (search_problem);
+		m_reachability = new aptk::agnostic::Reachability_Test(this->problem().task() );
 
-        h2->eval( *(search_problem.get_goal()), h_val );
 	}
 
 	virtual ~Serialized_Search() {
 		delete m_reachability;
 		m_closed_goal_states = NULL;
 	}
-    H2_Fwd          get_h2()                {return h2;}
-	void                    set_consistency_test( bool b )           { m_consistency_test = b; }	
+	void                    set_consistency_test( bool b )           { m_consistency_test = b; }
 	void            	set_closed_goal_states( Closed_List_Type* c ){ m_closed_goal_states = c; }
 	void 			close_goal_state( Search_Node* n ) 	 { 
 			if( closed_goal_states() ){
@@ -118,50 +114,61 @@ public:
 
 	}
 
-	void exclude_actions( Bit_Set& excluded ){
+	bool exclude_actions( Bit_Set& excluded, Fluent_Vec& persisting_goals ){
 		std::vector< const Action*>::const_iterator it_a =  this->problem().task().actions().begin();
 		unsigned asize = this->problem().num_actions();
-		unsigned fsize = m_goals_achieved.size();
+		unsigned fsize = persisting_goals.size();
 		const bool has_ceff = this->problem().task().has_conditional_effects();
 
+		bool changed = false;
 		for ( unsigned i = 0; i < asize ; i++, it_a++ ) {
 
-            set_union(m_goals_achieved.begin(),m_goals_achieved.end(),(*it_a)->prec_vec().begin(),(*it_a)->prec_vec().end(),back_inserter(m_goal_h2));
-
-            bool result = (h2->is_mutex(m_goal_h2));
-
-            if (result){
-                excluded.set( i );
-                m_goal_h2.clear();
-                continue;
-                }
-
-            m_goal_h2.clear();
+//            set_union(m_goals_achieved.begin(),m_goals_achieved.end(),(*it_a)->prec_vec().begin(),(*it_a)->prec_vec().end(),back_inserter(m_goal_h2));
+//
+//            bool result = (h2->is_mutex(m_goal_h2));
+//
+//            if (result){
+//                excluded.set( i );
+//                m_goal_h2.clear();
+//                continue;
+//                }
+//
+//            m_goal_h2.clear();
 			/**
 			 * If actions edel or adds fluent that has to persist, exclude action.
 			 */
 			unsigned p = 0;
 			for(; p < fsize; p++){
-				unsigned fl = m_goals_achieved.at(p);
+				unsigned fl = persisting_goals.at(p);
 				
 				if(has_ceff){
 					if( (*it_a)->consumes( fl ) ){
-						excluded.set( i ); 
+                        if( !excluded.isset(i) ) {
+                            changed = true;
+                            excluded.set(i);
+                        }
+
 						break;
 					}
 				}
 //				else if( (*it_a)->edeletes( fl ) ){
-                else if( (*it_a)->asserts( fl ) )
+                else if( ((*it_a)->asserts( fl ) || (*it_a)->edeletes( fl )) )
                 {
-                    excluded.set( i );
+                    if( !excluded.isset(i) ) {
+                        changed = true;
+                        excluded.set(i);
+                    }
 					break;
 				}
 								
 			}
-			if( p == fsize )
+
+			if( p == fsize && excluded.isset(i))
 				excluded.unset( i );
 			
 		}
+
+		return changed;
 
 		
 	}
@@ -197,11 +204,13 @@ public:
 				
 		bool new_goal_achieved = false; 
 		Fluent_Vec unachieved;
+        Fluent_Vec original_goal_candidates = m_goal_candidates;
 		for(Fluent_Vec::iterator it = m_goal_candidates.begin(); it != m_goal_candidates.end(); it++){
 			if(  s->entails( *it ) )
 				{
-					m_goals_achieved.push_back( *it );		
-
+                    Fluent_Vec persisting_goals;
+					m_goals_achieved.push_back( *it );
+                    persisting_goals = m_goals_achieved;
 
 					if(!m_consistency_test){
 						new_goal_achieved = true;
@@ -209,53 +218,66 @@ public:
 					}
 
 					static Bit_Set excluded( this->problem().num_actions() );
-					exclude_actions( excluded );
-/*
-					bool continue_flag= true;
+					bool new_excluded = exclude_actions( excluded, persisting_goals );
 
-					while (continue_flag){
-					    std::cout<<"continue"<<std::endl;
+					while (new_excluded) {
+                        new_excluded = false;
+                        for (auto g : original_goal_candidates) {
 
-                        for( auto const_initial : this->problem().task().goal()){
+                            //If other goal is true in the state
+                            if (*it == g) continue;
+                            if (!s->entails(g)) continue;
 
-
-                            bool excluded_flag= true;
-                            for( auto const_a : this->problem().task().actions_adding( const_initial ) ) {
+                            //Check that all actions that can add the other goal are excluded
+                            bool g_persists = true;
+                            for (auto const_a : this->problem().task().actions_adding(g)) {
                                 Action a = *this->problem().task().actions()[const_a->index()];
-                                if (excluded.isset(a.index())) {
-                                    excluded_flag = false;
-                                       break;
+                                if (!excluded.isset(a.index())) {
+                                    g_persists = false;
+                                    break;
                                 }
                             }
-                            continue_flag= false;
-                            if (excluded_flag){
 
-                                for( auto const_b : this->problem().task().actions_adding( const_initial ) ) {
-                                    Action b=*this->problem().task().actions()[const_b->index()];
-                                    if (excluded.isset(b.index())){
-                                        continue;
-                                    } else{
-                                        continue_flag= true;
-                                        excluded.set(b.index());
-                                    }
+                            //If true, then we also have to exclude actions conflicting with that goal as well
+                            if (g_persists) {
+                                persisting_goals.push_back(g);
 
+                                bool excluded_g = exclude_actions(excluded, persisting_goals);
+
+                                #ifdef DEBUG
+                                std::cout << "\t Implies goal "<< 	this->problem().task().fluents()[g]->signature() << std::endl;
+                                for( auto const_a : this->problem().task().actions()) {
+                                    Action a = *this->problem().task().actions()[const_a->index()];
+                                    if (excluded.isset(a.index())) {
+                                        std::cout << "\t" << a.signature() << std::endl;
                                     }
+                                }
+                                #endif
+
+                                //Remove the persistent goal if it doesn't exclude any action. This means that the goal was already excluded
+                                if (!excluded_g) persisting_goals.pop_back();
+
+                                new_excluded = new_excluded || excluded_g;
+
 
                             }
-
-
-
                         }
-					}
-
-*/
+                    }
 
 					#ifdef DEBUG
 						if ( this->verbose() )
 							debug_info( s, unachieved );
-					#endif
-					
-					if(m_reachability->is_reachable( s, s->fluent_vec() , this->problem().task().goal() , excluded  ) ) {
+
+					std::cout << "Excluded actions for goal "<< 	this->problem().task().fluents()[*it]->signature() << std::endl;
+                    for( auto const_a : this->problem().task().actions()) {
+                        Action a = *this->problem().task().actions()[const_a->index()];
+                        if (excluded.isset(a.index())) {
+                            std::cout << a.signature() << std::endl;
+                        }
+                    }
+                    #endif
+
+					if(m_reachability->is_reachable( s, s->fluent_vec() , this->problem().goal() , excluded  ) ) {
                         std::cout << "\t New Consistent Goal " << this->problem().task().fluents()[ *it ]->signature()<<std::endl;
                         new_goal_achieved = true;
                     }
@@ -294,7 +316,7 @@ public:
 		m_goals_achieved.clear();
 		m_goal_candidates.clear();
 		m_goal_candidates.insert( m_goal_candidates.begin(), 
-					  this->problem().task().goal().begin(), this->problem().task().goal().end() );
+					  this->problem().goal().begin(), this->problem().goal().end() );
 
 		do{
 			end = this->do_search();		
@@ -330,7 +352,6 @@ protected:
     Fluent_Vec                              m_goal_h2;
 	bool                                    m_consistency_test;
 	Closed_List_Type*			m_closed_goal_states;
-    H2_Fwd*                  h2;
     float                    h_val;
 };
 
