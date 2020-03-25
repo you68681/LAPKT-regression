@@ -1,26 +1,48 @@
-Plan found with cost: 16
-1. (STACK K H)
-2. (PICK-UP K)
-3. (STACK H A)
-4. (PICK-UP H)
-5. (STACK E D)
-6. (UNSTACK E K)
-7. (STACK A C)
-8. (PICK-UP A)
-9. (STACK C F)
-10. (UNSTACK C H)
-11. (STACK F B)
-12. (UNSTACK F E)
-13. (PUT-DOWN D)
-14. (UNSTACK D C)
-15. (PUT-DOWN B)
-16. (UNSTACK B A)
-Time: 0.02459
-Generated: 144
-Expanded: 27
-Total time: 0.024604
-Nodes generated during search: 145
-Nodes expanded during search: 27
-Nodes pruned by bound: 10
+Plan found with cost: 38
+1. (STACK A J)
+2. (PICK-UP A)
+3. (STACK J D)
+4. (UNSTACK J A)
+5. (STACK D B)
+6. (PICK-UP D)
+7. (STACK J A)
+8. (UNSTACK J D)
+9. (STACK B H)
+10. (UNSTACK B A)
+11. (STACK H K)
+12. (PICK-UP H)
+13. (STACK K I)
+14. (PICK-UP K)
+15. (STACK I F)
+16. (PICK-UP I)
+17. (STACK F E)
+18. (UNSTACK F I)
+19. (STACK E G)
+20. (PICK-UP E)
+21. (STACK B A)
+22. (UNSTACK B K)
+23. (PUT-DOWN A)
+24. (UNSTACK A F)
+25. (STACK B K)
+26. (UNSTACK B H)
+27. (PUT-DOWN K)
+28. (UNSTACK K A)
+29. (STACK B H)
+30. (PICK-UP B)
+31. (PUT-DOWN H)
+32. (UNSTACK H K)
+33. (STACK G C)
+34. (UNSTACK G H)
+35. (PUT-DOWN B)
+36. (UNSTACK B G)
+37. (PUT-DOWN C)
+38. (UNSTACK C E)
+Time: 0.419634
+Generated: 1716
+Expanded: 475
+Total time: 0.419648
+Nodes generated during search: 1717
+Nodes expanded during search: 475
+Nodes pruned by bound: 169
 Average ef. width: 2
 Max ef. width: 2
