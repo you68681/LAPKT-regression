@@ -163,11 +163,11 @@ protected:
             }
 
             //    std::cout<<"NNNNNNNN"<<std::endl;
-            head->state()->print(std::cout);
+           // head->state()->print(std::cout);
             //	std::cout<<"VVVVVVVV"<<std::endl;
-            this->problem().task().actions()[ a ]->print(this->problem().task(),std::cout);
+            // this->problem().task().actions()[ a ]->print(this->problem().task(),std::cout);
             //    std::cout<<"BBBBBBBBBB"<<std::endl;
-            succ->print(std::cout);
+            //succ->print(std::cout);
 
 
 
@@ -183,14 +183,14 @@ protected:
 				if( prune( n ) ){
 					//#ifdef DEBUG
 					if ( verbose() ) {
-						std::cout << std::endl;
-						std::cout << "PRUNED State: ";
-						if( n->has_state() )
-							std::cout << n->state();
-						std::cout << " " << n->parent()->state() << " " << n->gn() << " ";
-						if( n->has_state() )
-							n->state()->print( std::cout );
-						std::cout << this->problem().task().actions()[ n->action() ]->signature() << std::endl;
+					//	std::cout << std::endl;
+					//	std::cout << "PRUNED State: ";
+					//	if( n->has_state() )
+					//		std::cout << n->state();
+					//	std::cout << " " << n->parent()->state() << " " << n->gn() << " ";
+					//	if( n->has_state() )
+					//		n->state()->print( std::cout );
+					//	std::cout << this->problem().task().actions()[ n->action() ]->signature() << std::endl;
 					}
 					//#endif
 					delete n;
