@@ -115,8 +115,7 @@ public:
 		m_updated.clear();
 		initialize( s );
 		compute();
-//		h_val = eval( m_strips_model.goal() );
-        h_val = eval( m_strips_model.init() );
+		h_val = eval( m_strips_model.goal() );
     }
 
 	virtual void eval( const State& s, float& h_val,  std::vector<Action_Idx>& pref_ops ) {
@@ -183,13 +182,22 @@ public:
 	void print_values( std::ostream& os ) const {
 		for ( unsigned p = 0; p < m_strips_model.fluents().size(); p++ )
 			for ( unsigned q = p; q < m_strips_model.fluents().size(); q++ ) {
+			    os << p << ", "<< q << " - ";
 				os << "h²({ ";
 				os << m_strips_model.fluents()[p]->signature();
 				os << ", ";
 				os << m_strips_model.fluents()[q]->signature();
 				os << "}) = " << value(p,q) << std::endl;
-			}		
+			}
+
+		for(auto a : m_strips_model.actions()){
+		    os << a->index() << " - ";
+            os << "h²({ ";
+            os << a->signature();
+            os << "}) = " << op_value(a->index()) << std::endl;
+		}
 	}
+
 
 	void compute_mutexes_only( const State& s ){
 		initialize( s );
@@ -593,6 +601,7 @@ protected:
 
 
 	void compute_mutexes_only() {
+
 		while ( !m_updated.empty() ) {
 				
 			unsigned p = m_updated.front();
@@ -604,6 +613,8 @@ protected:
 
 				const Action& action = *(m_strips_model.actions()[*action_it]);
 				unsigned a = action.index();
+
+
 
 				op_value(a) = eval( action.prec_vec() );
 				if ( op_value(a) == infty ) continue;
@@ -641,10 +652,40 @@ protected:
 						for ( unsigned j = 0; j < action.prec_vec().size(); j++ ) {
 							unsigned s = action.prec_vec()[j];
 							h2_pre_noop = std::max( h2_pre_noop, value(r,s) );
-							if ( h2_pre_noop == infty ) break;
+							if ( h2_pre_noop == infty ) {
+
+							    //Check the reverse other: if action adding precondition s do not conflict with r, then value(r,s)==infy should be ignored.
+							    //This may be an artifact of the relevant_actions datastructure and the action order propagation
+                                for (auto act_add_s : m_strips_model.actions_adding(s)) {
+                                    int as = act_add_s->index();
+                                    if( ! interferes( as , r ) ){
+                                        float h2_pre_s_noop = op_value(as);
+                                        if (  h2_pre_s_noop == infty ) continue;
+
+                                        for ( auto t : act_add_s->prec_vec() ) {
+                                            h2_pre_s_noop = std::max( h2_pre_s_noop, value(t,r) );
+                                            if (  h2_pre_s_noop == infty ) {
+                                                h2_pre_noop == infty;
+                                                break;
+                                            }
+                                        }
+
+                                        //If the order of the propagation affect the result, then correct the he_pre_noop
+                                        if(h2_pre_s_noop != infty) {
+                                            h2_pre_noop = 0.0f;
+                                            break;
+                                        }
+
+                                    }
+                                }
+
+
+                            }
 						}
 						
 						if ( h2_pre_noop == infty ) continue;
+
+
 						value(p,r) = 0.0f;
 						int curr_idx = H2_Helper::pair_index(p,r);
 						if ( !m_already_updated.isset( curr_idx ) ) {
@@ -660,10 +701,10 @@ protected:
 
 				}
 			}
-			
-		} 
-		
-	}
+		}
+
+
+    }
 		
 
 
