@@ -613,12 +613,18 @@ protected:
 
 				const Action& action = *(m_strips_model.actions()[*action_it]);
 				unsigned a = action.index();
+                if (a==127|| a==114 || a==174){
+                    std::cout<<"find"<<std::endl;
+                }
 
 
 
 				op_value(a) = eval( action.prec_vec() );
 				if ( op_value(a) == infty ) continue;
-				
+				if (a==127|| a==114 || a==174){
+				    std::cout<<"find"<<std::endl;
+				}
+
 				for ( unsigned i = 0; i < action.add_vec().size(); i++ ) {
 					unsigned p = action.add_vec()[i];
 					for ( unsigned j = i; j < action.add_vec().size(); j++ ) {
@@ -645,6 +651,12 @@ protected:
 					}
 
 					for ( unsigned r = 0; r < m_strips_model.num_fluents(); r++ ) {
+					    if (r==92){
+					        std::cout<<"find"<<std::endl;
+					    }
+                        if (r==105){
+                            std::cout<<"find"<<std::endl;
+                        }
 						if ( interferes( a, r ) || value( p, r ) == 0.0f ) continue;
 						float h2_pre_noop = std::max( op_value(a), value(r,r) );
 						if ( h2_pre_noop == infty ) continue;
