@@ -143,24 +143,49 @@ protected:
 			//need to check COND EFF TOO!!
 			// if( head->state()->entails(this->problem().task().actions()[a]->add_vec()) )
 			// 	continue;
-			
-
-			State *succ = this->problem().next( *(head->state()), a );
 
 
+			//State *succ = this->problem().next( *(head->state()), a );
 
-			Search_Node* n = new Search_Node( succ , a, head, this->problem().task().actions()[ a ]->cost() );
+
+
+			//Search_Node* n = new Search_Node( succ , a, head, this->problem().task().actions()[ a ]->cost() );
 
 			//Lazy expansion
+
 			//Search_Node* n = new Search_Node( NULL , a, head, this->problem().task().actions()[ a ]->cost() );
 
 
-			bool result = this->problem().h2_fwd().is_mutex( succ->fluent_vec() );
+			//bool result = this->problem().h2_fwd().is_mutex( succ->fluent_vec() );
 			//std::cout<<result<<std::endl;
-			if (result) {
-                delete n;
+			//if (result){
+			//    delete n;
+            //    continue;
+			//}
+			/**
+			 * chao edit
+            */
+			bool is_mutex =false;
+			const Action* a_ptr=this->problem().task().actions()[a];
+			for (auto p:head->state()->fluent_vec()){
+			    for (auto new_p: a_ptr->prec_vec()){
+			        if (a_ptr->add_set().isset(p)) continue;
+			        if (this->problem().h2_fwd().is_mutex(p,new_p)){
+                        is_mutex = true;
+                        break;
+			        }
+                    if (is_mutex) break;
+			    }
+			}
+
+			Search_Node *n= NULL;
+			if (is_mutex){
                 continue;
-            }
+			} else{
+			    n = new Search_Node( NULL , a, head, this->problem().task().actions()[ a ]->cost() );
+                State *succ = this->problem().next( *(head->state()), a );
+                n->set_state(succ);
+			}
 
             //    std::cout<<"NNNNNNNN"<<std::endl;
            // head->state()->print(std::cout);
@@ -175,7 +200,7 @@ protected:
 				delete n;
 				continue;
 			}
-			
+
 			if( this->previously_hashed(n) ) {
 				delete n;
 			}
@@ -208,7 +233,7 @@ protected:
 						n->state()->print( std::cout );
 					std::cout << this->problem().task().actions()[ n->action() ]->signature() << std::endl;
 				}
-				#endif			
+				#endif
 
 				this->open_node(n);
 //				std::cout<<"goal: "<<this->is_goal(n)<<std::endl;
@@ -217,13 +242,13 @@ protected:
 					return n;
 			}
 
-		} 
+		}
 
 
 
 		return NULL;
 	}
-	
+
 protected:
     float h_val;
 	Abstract_Novelty*      			m_novelty;

@@ -1,48 +1,46 @@
-Plan found with cost: 38
-1. (STACK A J)
-2. (PICK-UP A)
-3. (STACK J D)
-4. (UNSTACK J A)
-5. (STACK D B)
-6. (PICK-UP D)
-7. (STACK J A)
-8. (UNSTACK J D)
-9. (STACK B H)
-10. (UNSTACK B A)
-11. (STACK H K)
-12. (PICK-UP H)
-13. (STACK K I)
-14. (PICK-UP K)
-15. (STACK I F)
-16. (PICK-UP I)
-17. (STACK F E)
-18. (UNSTACK F I)
-19. (STACK E G)
-20. (PICK-UP E)
-21. (STACK B A)
-22. (UNSTACK B K)
-23. (PUT-DOWN A)
-24. (UNSTACK A F)
-25. (STACK B K)
-26. (UNSTACK B H)
-27. (PUT-DOWN K)
-28. (UNSTACK K A)
-29. (STACK B H)
-30. (PICK-UP B)
-31. (PUT-DOWN H)
-32. (UNSTACK H K)
-33. (STACK G C)
-34. (UNSTACK G H)
-35. (PUT-DOWN B)
-36. (UNSTACK B G)
-37. (PUT-DOWN C)
-38. (UNSTACK C E)
-Time: 0.419634
-Generated: 1716
-Expanded: 475
-Total time: 0.419648
-Nodes generated during search: 1717
-Nodes expanded during search: 475
-Nodes pruned by bound: 169
+Plan found with cost: 36
+1. (STACK C A)
+2. (PICK-UP C)
+3. (STACK M G)
+4. (UNSTACK M C)
+5. (STACK G C)
+6. (UNSTACK G P)
+7. (STACK Q J)
+8. (UNSTACK Q M)
+9. (STACK J M)
+10. (UNSTACK J H)
+11. (STACK D K)
+12. (UNSTACK D Q)
+13. (STACK A Q)
+14. (PICK-UP A)
+15. (STACK B P)
+16. (UNSTACK B D)
+17. (STACK P D)
+18. (UNSTACK P N)
+19. (STACK L N)
+20. (UNSTACK L B)
+21. (STACK E B)
+22. (UNSTACK E R)
+23. (STACK O R)
+24. (UNSTACK O L)
+25. (STACK R L)
+26. (UNSTACK R I)
+27. (STACK F I)
+28. (UNSTACK F O)
+29. (STACK I O)
+30. (UNSTACK I F)
+31. (STACK H F)
+32. (UNSTACK H A)
+33. (STACK C A)
+34. (UNSTACK C J)
+35. (STACK K J)
+36. (PICK-UP K)
+Time: 12.8116
+Generated: 14697
+Expanded: 806
+Total time: 12.8116
+Nodes generated during search: 14698
+Nodes expanded during search: 806
+Nodes pruned by bound: 5765
 Average ef. width: 2
 Max ef. width: 2
