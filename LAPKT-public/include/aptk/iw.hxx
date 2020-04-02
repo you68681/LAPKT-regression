@@ -183,16 +183,15 @@ protected:
                 continue;
 			} else{
 			    n = new Search_Node( NULL , a, head, this->problem().task().actions()[ a ]->cost() );
-                State *succ = this->problem().next( *(head->state()), a );
-                n->set_state(succ);
+                //State *succ = this->problem().next( *(head->state()), a );
+                //n->set_state(succ);
+               // head->state()->print(std::cout);
+                //this->problem().task().actions()[ a ]->print(this->problem().task(),std::cout);
+                //succ->print(std::cout);
 			}
 
-            //    std::cout<<"NNNNNNNN"<<std::endl;
-           // head->state()->print(std::cout);
-            //	std::cout<<"VVVVVVVV"<<std::endl;
-            // this->problem().task().actions()[ a ]->print(this->problem().task(),std::cout);
-            //    std::cout<<"BBBBBBBBBB"<<std::endl;
-            //succ->print(std::cout);
+
+
 
 
 

@@ -624,7 +624,9 @@ protected:
 				//if (a==127|| a==114 || a==174){
 				//    std::cout<<"find"<<std::endl;
 				//}
-
+                //if (a==29){
+                //    std::cout<<"find"<<std::endl;
+                //}
 				for ( unsigned i = 0; i < action.add_vec().size(); i++ ) {
 					unsigned p = action.add_vec()[i];
 					for ( unsigned j = i; j < action.add_vec().size(); j++ ) {
@@ -632,6 +634,10 @@ protected:
 						float curr_value = value(p,q);
 						if ( curr_value == 0.0f ) continue;
 						value(p,q) = 0.0f;
+                        //if (value(20,28)==0.0f)
+                        //{
+                        //    std::cout<<"find"<<std::endl;
+                        //}
 						int curr_idx = H2_Helper::pair_index(p,q);
 						if ( !m_already_updated.isset( curr_idx ) ) {
 							m_updated.push_back( curr_idx );
@@ -651,6 +657,7 @@ protected:
 					}
 
 					for ( unsigned r = 0; r < m_strips_model.num_fluents(); r++ ) {
+
 					    //if (r==92){
 					    //    std::cout<<"find"<<std::endl;
 					    //}
@@ -660,10 +667,14 @@ protected:
 						if ( interferes( a, r ) || value( p, r ) == 0.0f ) continue;
 						float h2_pre_noop = std::max( op_value(a), value(r,r) );
 						if ( h2_pre_noop == infty ) continue;
-						
+                        //if (r==13){
+                        //    std::cout<<"find"<<std::endl;
+                        //}
 						for ( unsigned j = 0; j < action.prec_vec().size(); j++ ) {
 							unsigned s = action.prec_vec()[j];
+
 							h2_pre_noop = std::max( h2_pre_noop, value(r,s) );
+
 							if ( h2_pre_noop == infty ) {
 
 							    //Check the reverse other: if action adding precondition s do not conflict with r, then value(r,s)==infy should be ignored.
@@ -677,7 +688,7 @@ protected:
                                         for ( auto t : act_add_s->prec_vec() ) {
                                             h2_pre_s_noop = std::max( h2_pre_s_noop, value(t,r) );
                                             if (  h2_pre_s_noop == infty ) {
-                                                h2_pre_noop == infty;
+                                                h2_pre_noop =infty;
                                                 break;
                                             }
                                         }
@@ -690,6 +701,12 @@ protected:
 
                                     }
                                 }
+                                /**chao add
+                                 *  if  anyone of the r,s pair can not be set to 0 when consider the relevant_actions, we should break.
+                                 */
+                                 if (h2_pre_noop == infty && value(r,s)==infty){
+                                     break;
+                                 }
 
 
                             }
@@ -697,8 +714,11 @@ protected:
 						
 						if ( h2_pre_noop == infty ) continue;
 
-
 						value(p,r) = 0.0f;
+						//if (value(20,28)==0.0f)
+                       // {
+						//    std::cout<<"find"<<std::endl;
+                        //}
 						int curr_idx = H2_Helper::pair_index(p,r);
 						if ( !m_already_updated.isset( curr_idx ) ) {
 							m_updated.push_back( curr_idx );

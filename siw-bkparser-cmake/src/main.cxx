@@ -216,10 +216,10 @@ int main( int argc, char** argv ) {
 	else
 	    prob.compute_edeletes();
 
-//	  std::ofstream h2_stream;
-//    h2_stream.open("h2values.txt");
-//    search_prob.h2_fwd().print_values(h2_stream);
-//    h2_stream.close();
+	std::ofstream h2_stream;
+	h2_stream.open("h2values.txt");
+	search_prob.h2_fwd().print_values(h2_stream);
+	h2_stream.close();
 
 
 //	Gen_Lms_Fwd    gen_lms( search_prob );

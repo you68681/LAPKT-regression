@@ -238,7 +238,7 @@ void State::progress_lazy_state(const Action* a, Fluent_Vec* added, Fluent_Vec* 
 	
 	/**
 	 * progress action
-	 */
+
 	Fluent_Vec::iterator it = m_fluent_vec.begin();
 	while(it != m_fluent_vec.end() ){
 		if( a->retracts(*it) ){
@@ -270,10 +270,45 @@ void State::progress_lazy_state(const Action* a, Fluent_Vec* added, Fluent_Vec* 
 				it++;					
 		}
 	}
+    */
+    /**
+	  * chao edit
+	  */
 
+    Fluent_Vec::iterator it = m_fluent_vec.begin();
+    while(it != m_fluent_vec.end() ){
+        if( a->asserts(*it) ){
+            if(deleted)
+                deleted->push_back( *it );
+
+            it = m_fluent_vec.erase( it );
+        }
+        else{
+            //Check Conditional Effects
+            bool retracts = false;
+            for( unsigned i = 0; i < a->ceff_vec().size(); i++ ){
+                Conditional_Effect* ce = a->ceff_vec()[i];
+                if ( !ce->retracts( *it ) ) // constant-time check
+                    continue;
+                if( ce->can_be_applied_on( *this ) ){ // linear-time check
+                    retracts = true;
+                    break;
+                }
+            }
+
+            if( retracts ){
+                if(deleted)
+                    deleted->push_back( *it );
+
+                it = m_fluent_vec.erase( it );
+            }
+            else
+                it++;
+        }
+    }
 	/**
 	 * If given, update the inclusion set
-	 */
+
 
 	if(deleted)
 		for(it = deleted->begin(); it != deleted->end(); it++)
@@ -302,10 +337,40 @@ void State::progress_lazy_state(const Action* a, Fluent_Vec* added, Fluent_Vec* 
 			}
 			cit++;
 		}	
-	}     
+	}
 
+    */
+    /**
+     * chao edit
+     */
+    if(deleted)
+        for(it = deleted->begin(); it != deleted->end(); it++)
+            this->unset(*it);
 
-	
+    Fluent_Vec::const_iterator cit = a->prec_vec().begin();
+    while(cit != a->prec_vec().end() ){
+        if( ! this->entails(*cit) ){
+            if(added)
+                added->push_back( *cit );
+            m_fluent_vec.push_back(*cit);
+        }
+        cit++;
+    }
+
+    for( unsigned i = 0; i < a->ceff_vec().size(); i++ ){
+        Conditional_Effect* ce = a->ceff_vec()[i];
+        if( !ce->can_be_applied_on( *this ) ) continue;
+
+        cit = ce->add_vec().begin();
+        while(cit != ce->add_vec().end() ){
+            if( ! this->entails(*cit) ){
+                if(added)
+                    added->push_back( *cit );
+                m_fluent_vec.push_back(*cit);
+            }
+            cit++;
+        }
+    }
 	/**
 	 * If given, update the inclusion set
 	 */
@@ -332,7 +397,7 @@ void State::regress_lazy_state(const Action* a, Fluent_Vec* added, Fluent_Vec* d
 
 	/**
 	 * regress action
-	 */
+
 	it = m_fluent_vec.begin();
 			
 	while(it != m_fluent_vec.end() ){
@@ -360,13 +425,61 @@ void State::regress_lazy_state(const Action* a, Fluent_Vec* added, Fluent_Vec* d
 				it++;					
 		}
 	}
-			
+
+    */
+
+    /** chao edit
+     *
+     */
+
+    it = m_fluent_vec.begin();
+
+    while(it != m_fluent_vec.end() ){
+        bool s_entails = this->entails( *it );
+        if( s_entails ){
+            it++;
+        }
+        else if( a->requires( *it ) ) //if it wasn't true in prev state
+            it = m_fluent_vec.erase( it );
+        else{
+            //Check Conditional Effects
+            bool asserts = false;
+            for( unsigned i = 0; i < a->ceff_vec().size(); i++ ){
+                Conditional_Effect* ce = a->ceff_vec()[i];
+                if ( !ce->asserts( *it ) ) // constant-time check
+                    continue;
+                if( ce->can_be_applied_on( *this ) ){ // linear-time check
+                    asserts = true;
+                    break;
+                }
+            }
+            if(asserts)
+                it = m_fluent_vec.erase( it );
+            else
+                it++;
+        }
+    }
+    /**orginal version
+     *
+
 	Fluent_Vec::const_iterator cit = a->del_vec().begin();
 	while(cit != a->del_vec().end() ){
 		if( this->entails( *cit ) )
 			m_fluent_vec.push_back(*cit);
 		cit++;
 	}
+    */
+
+    /** chao edit
+     *
+     */
+
+    Fluent_Vec::const_iterator cit = a->add_vec().begin();
+    while(cit != a->add_vec().end() ){
+        if( this->entails( *cit ) )
+            m_fluent_vec.push_back(*cit);
+        cit++;
+    }
 
 	for( unsigned i = 0; i < a->ceff_vec().size(); i++ ){
 		Conditional_Effect* ce = a->ceff_vec()[i];
