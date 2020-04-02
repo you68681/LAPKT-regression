@@ -180,6 +180,7 @@ protected:
 
 			Search_Node *n= NULL;
 			if (is_mutex){
+			    this->inc_pruned_mutex();
                 continue;
 			} else{
 			    n = new Search_Node( NULL , a, head, this->problem().task().actions()[ a ]->cost() );

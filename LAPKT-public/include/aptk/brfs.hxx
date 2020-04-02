@@ -122,7 +122,8 @@ public:
 	typedef 	Closed_List< Search_Node >      		Closed_List_Type;
 
 	BRFS( 	const Search_Model& search_problem ) 
-		: m_problem( search_problem ), m_exp_count(0), m_gen_count(0), m_cl_count(0), m_max_depth(0), m_verbose(true) {		
+		: m_problem( search_problem ), m_exp_count(0), m_gen_count(0), m_cl_count(0), m_max_depth(0), m_verbose(true) {
+	    m_pruned_mutex=0;
 	}
 
 	virtual ~BRFS() {
@@ -207,6 +208,8 @@ public:
 	unsigned		generated() const		{ return m_gen_count; }
 	void			inc_exp()			{ m_exp_count++; }
 	unsigned		expanded() const		{ return m_exp_count; }
+    void            inc_pruned_mutex()       {m_pruned_mutex++;}
+    unsigned        pruned_by_mutex() const  { return m_pruned_mutex;}
 
 	void			inc_closed()			{ m_cl_count++; }
 	unsigned		pruned_closed() const		{ return m_cl_count; }
@@ -352,6 +355,7 @@ protected:
 	unsigned				m_exp_count;
 	unsigned				m_gen_count;
 	unsigned				m_cl_count;
+    unsigned                m_pruned_mutex;
 	unsigned                                m_max_depth;
 	Search_Node*				m_root;
 	std::vector<Action_Idx> 		m_app_set;

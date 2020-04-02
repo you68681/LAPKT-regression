@@ -6,5 +6,5 @@ C_FLAGS =  -O0 -g
 
 C_DEFINES = 
 
-C_INCLUDES = -I/home/chao/LAPKT-edit/siw-bkparser-cmake/src -I/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic -I/home/chao/LAPKT-edit/LAPKT-public/interfaces/ff-wrapped -I/home/chao/LAPKT-edit/LAPKT-public/include -I/home/chao/LAPKT-edit/LAPKT-public/external 
+C_INCLUDES = -I/xenon/LAPKT-edit/siw-bkparser-cmake/src -I/xenon/LAPKT-edit/LAPKT-public/interfaces/agnostic -I/xenon/LAPKT-edit/LAPKT-public/interfaces/ff-wrapped -I/xenon/LAPKT-edit/LAPKT-public/include -I/xenon/LAPKT-edit/LAPKT-public/external 
 

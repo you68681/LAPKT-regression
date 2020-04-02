@@ -127,6 +127,10 @@ float do_search( Search_Engine& engine, STRIPS_Problem& plan_prob, float bound, 
 	std::cout << "Total time: " << total_time << std::endl;
 	std::cout << "Nodes generated during search: " << engine.generated() << std::endl;
 	std::cout << "Nodes expanded during search: " << engine.expanded() << std::endl;
+    std::cout << "Nodes pruned by mutex: " << engine.pruned_by_mutex() << std::endl;
+    std::cout << "Nodes pruned by bound: " << engine.sum_pruned_by_bound() << std::endl;
+    std::cout << "Average ef. width: " << engine.avg_B() << std::endl;
+    std::cout << "Max ef. width: " << engine.max_B() << std::endl;
 	
 	return total_time;
 }
@@ -216,10 +220,10 @@ int main( int argc, char** argv ) {
 	else
 	    prob.compute_edeletes();
 
-	std::ofstream h2_stream;
-	h2_stream.open("h2values.txt");
-	search_prob.h2_fwd().print_values(h2_stream);
-	h2_stream.close();
+	//std::ofstream h2_stream;
+	//h2_stream.open("h2values.txt");
+	//search_prob.h2_fwd().print_values(h2_stream);
+	//h2_stream.close();
 
 
 //	Gen_Lms_Fwd    gen_lms( search_prob );
