@@ -31,8 +31,6 @@ Reachability_Test::Reachability_Test( const STRIPS_Problem& p )
 {
 	m_reachable_atoms.resize( m_problem.fluents().size() );
 	m_reach_next.resize( m_problem.fluents().size() );
-    m_reachable_reg.resize( m_problem.fluents().size() );
-    m_reg_next.resize( m_problem.fluents().size() );
 	m_action_mask.resize( m_problem.actions().size() );
 
 
@@ -48,8 +46,6 @@ void	Reachability_Test::initialize( const Fluent_Vec& s)
 	for ( unsigned i = 0; i < m_reachable_atoms.size(); i++ )
 		m_reachable_atoms[i] = false;
 
-    for ( unsigned i = 0; i < m_reachable_reg.size(); i++ )
-        m_reachable_reg[i] = false;
 
 	m_action_mask.reset();
 	
@@ -61,12 +57,6 @@ void	Reachability_Test::initialize( const Fluent_Vec& s)
 		m_reachable_atoms[ s[i] ] = true;
 
 	}
-    for ( unsigned i = 0; i < s.size(); i++ ) {
-
-        m_reachable_reg[s[i]]= true;
-
-    }
-
 }
 
 std::vector <std::string> split(const std::string &str, const std::string &pattern) {
@@ -100,7 +90,6 @@ bool	Reachability_Test::apply_actions() {
 		// Check if applicable
 //		const Fluent_Vec&	pi = a->prec_vec();
         const Fluent_Vec&	pi = a->del_vec();
-		bool		applicable = true;
 
 
 //        for ( unsigned j = 0; j < pi.size(); j++ )
@@ -112,13 +101,13 @@ bool	Reachability_Test::apply_actions() {
 
         bool relevant = false;
 
-        for ( unsigned k = 0; k < a->add_vec().size() && !relevant && applicable; k++ )
+        for ( unsigned k = 0; k < a->add_vec().size() && !relevant; k++ )
             if ( m_reachable_atoms[ a->add_vec()[k] ] )
                 relevant = true;
 
 
 
-		if ( !applicable || ! relevant) continue;
+		if ( ! relevant) continue;
 
 		#ifdef DEBUG
 		std::cout << "Applying " << a->signature() << std::endl;
@@ -260,12 +249,12 @@ bool	Reachability_Test::is_reachable( const Fluent_Vec& s, const Fluent_Vec& g, 
 	return check(g);
 }
 
-bool	Reachability_Test::is_reachable(State *state, const Fluent_Vec& s, const Fluent_Vec& g, const Bit_Set& excluded )
+bool	Reachability_Test::is_reachable( const Fluent_Vec& s, const Fluent_Vec& g, const Bit_Set& excluded )
 {
-    state_processed=state;
+//    state_processed=state;
 	initialize(s);
 
-	m_action_mask.add(excluded);	
+	m_action_mask.add(excluded);
 	#ifdef DEBUG
 	std::cout << "Reachable atoms:" << std::endl;
 	print_reachable_atoms();

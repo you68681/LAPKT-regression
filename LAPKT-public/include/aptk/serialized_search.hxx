@@ -278,7 +278,7 @@ public:
                     }
                     #endif
 
-					if(m_reachability->is_reachable( s, s->fluent_vec() , this->problem().goal() , excluded  ) ) {
+					if(m_reachability->is_reachable( s->fluent_vec() , this->problem().goal() , excluded  ) ) {
                         std::cout << "\t New Consistent Goal " << this->problem().task().fluents()[ *it ]->signature()<<std::endl;
                         new_goal_achieved = true;
                     }

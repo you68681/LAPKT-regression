@@ -42,7 +42,7 @@ namespace agnostic {
 		// Returns true if atom set g is reachable from s, when removing action
 		bool	is_reachable( const Fluent_Vec& s, const Fluent_Vec& g, unsigned action );
 //		bool 	is_reachable( const Fluent_Vec& s, const Fluent_Vec& g, const Bit_Set& excluded );
-        bool 	is_reachable(State *state, const Fluent_Vec& s, const Fluent_Vec& g, const Bit_Set& excluded );
+        bool 	is_reachable(const Fluent_Vec& s, const Fluent_Vec& g, const Bit_Set& excluded );
 		void	get_reachable_actions( const Fluent_Vec& s, const Fluent_Vec& g,  Bit_Set& reach_actions );
 	protected:
 
@@ -55,13 +55,8 @@ namespace agnostic {
 
 		const STRIPS_Problem&		m_problem;
 		std::vector<bool>	m_reachable_atoms;
-		std::vector<bool>	m_reachable_reg;
 		std::vector<bool>	m_reach_next;
-		std::vector<bool>	m_reg_next;
 		Bit_Set			m_action_mask;
-		State*          state_processed;
-        State*          state_reg;
-        float              h_val;
 
 
 	};
