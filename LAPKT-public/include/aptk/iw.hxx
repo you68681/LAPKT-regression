@@ -174,8 +174,9 @@ protected:
                         is_mutex = true;
                         break;
 			        }
-                    if (is_mutex) break;
+
 			    }
+                if (is_mutex) break;
 			}
 
 			Search_Node *n= NULL;
