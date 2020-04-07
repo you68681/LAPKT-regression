@@ -131,8 +131,8 @@ public:
 				new_init_state->set( end->state()->fluent_vec() );
 				new_init_state->update_hash();
 				
-//				this->set_bound( 1 );
-                this->set_bound( 2 );
+				this->set_bound( 1 );
+//                this->set_bound( 2 );
 				this->start( new_init_state );
 				
 
