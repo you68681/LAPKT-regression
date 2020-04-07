@@ -60,6 +60,10 @@ public:
 	
 	void 	add( unsigned k );
 	void 	add( std::vector<unsigned>& k );
+
+    //not sorting! can get diff value if in different order
+    void 	add( const std::vector<unsigned>& k );
+
 	void 	add( const Bit_Array& bits );
 
 	operator size_t() const
@@ -95,6 +99,24 @@ inline void Hash_Key::add( std::vector<unsigned>& k )
 	}	
 	
 }
+
+    //not sorting! can get diff value if in different order
+	inline void Hash_Key::add( const std::vector<unsigned>& k )
+	{
+		if ( k.empty() )
+		{
+			unsigned k2 = 0;
+			m_code = jenkins_hash( (ub1*)&k2, sizeof(unsigned), m_code );
+			return;
+		}
+
+		m_code = jenkins_hash( (ub1*)(&k[0]), sizeof(unsigned), m_code );
+		for ( unsigned i = 1; i < k.size(); i++ )
+		{
+			m_code = jenkins_hash( (ub1*)(&k[i]), sizeof(unsigned), m_code );
+		}
+
+	}
 
 inline void Hash_Key::add( const Bit_Array& k )
 {

@@ -115,63 +115,65 @@ public:
 	}
 
 	bool exclude_actions( Bit_Set& excluded, Fluent_Vec& persisting_goals ){
-		std::vector< const Action*>::const_iterator it_a =  this->problem().task().actions().begin();
-		unsigned asize = this->problem().num_actions();
-		unsigned fsize = persisting_goals.size();
-		const bool has_ceff = this->problem().task().has_conditional_effects();
 
 		bool changed = false;
-		for ( unsigned i = 0; i < asize ; i++, it_a++ ) {
 
-//            set_union(m_goals_achieved.begin(),m_goals_achieved.end(),(*it_a)->prec_vec().begin(),(*it_a)->prec_vec().end(),back_inserter(m_goal_h2));
-//
-//            bool result = (h2->is_mutex(m_goal_h2));
-//
-//            if (result){
-//                excluded.set( i );
-//                m_goal_h2.clear();
-//                continue;
-//                }
-//
-//            m_goal_h2.clear();
-			/**
-			 * If actions edel or adds fluent that has to persist, exclude action.
-			 */
-			unsigned p = 0;
-			for(; p < fsize; p++){
-				unsigned fl = persisting_goals.at(p);
-				
-				if(has_ceff){
-					if( (*it_a)->consumes( fl ) ){
-                        if( !excluded.isset(i) ) {
-                            changed = true;
-                            excluded.set(i);
-                        }
+        /**
+         * If actions edel or adds fluent that has to persist, exclude action.
+         */
 
-						break;
-					}
-				}
-//				else if( (*it_a)->edeletes( fl ) ){
-                else if( ((*it_a)->asserts( fl ) || (*it_a)->edeletes( fl )) )
-                {
-                    if( !excluded.isset(i) ) {
-                        changed = true;
-                        excluded.set(i);
-                    }
-					break;
-				}
-								
-			}
+        for (unsigned fl : persisting_goals) {
+            for (auto const_a : this->problem().task().actions_adding(fl)) {
+                unsigned idx = const_a->index();
 
-			if( p == fsize && excluded.isset(i))
-				excluded.unset( i );
-			
-		}
+                if (!excluded.isset(idx)) {
+                    changed = true;
+                    excluded.set(idx);
 
+                }
+            }
+
+            for (auto const_a : this->problem().task().actions_edeleting(fl)) {
+                unsigned idx = const_a->index();
+
+                if (!excluded.isset(idx)) {
+                    changed = true;
+                    excluded.set(idx);
+                }
+            }
+
+        }
 		return changed;
-
-		
 	}
+
+
+    bool check_exclude_new_actions( Bit_Set& excluded, unsigned persisting_goal ){
+
+        bool changed = false;
+
+        for (auto const_a : this->problem().task().actions_adding(persisting_goal)) {
+            unsigned idx = const_a->index();
+
+            if (!excluded.isset(idx)) {
+                changed = true;
+                break;
+            }
+        }
+
+        if(!changed)
+            for (auto const_a : this->problem().task().actions_edeleting(persisting_goal)) {
+                unsigned idx = const_a->index();
+
+                if (!excluded.isset(idx)) {
+                    changed = true;
+                    break;
+                }
+            }
+
+        return changed;
+
+
+    }
 
 	virtual bool  is_goal( Search_Node* n ){
 
@@ -217,11 +219,17 @@ public:
 						continue;
 					}
 
-					static Bit_Set excluded( this->problem().num_actions() );
-					bool new_excluded = exclude_actions( excluded, persisting_goals );
+					auto search_excluded = m_goal_excluded_actions.find( persisting_goals );
+					if ( search_excluded == m_goal_excluded_actions.end() ) {
+                        auto new_item = m_goal_excluded_actions.emplace(persisting_goals, Bit_Set(this->problem().num_actions()));
+                        exclude_actions( m_goal_excluded_actions[ persisting_goals ], persisting_goals );
+                    }
 
-					//Check if other goals true in current states persist along with the goal candidate
-					while (new_excluded) {
+					Bit_Set& excluded = m_goal_excluded_actions[ persisting_goals ];
+
+                    bool new_excluded;
+                    //Check if other goals true in current states persist along with the goal candidate
+					do {
                         new_excluded = false;
                         for (auto g : original_goal_candidates) {
 
@@ -232,8 +240,9 @@ public:
                             //Check that all actions that can add the other goal are excluded
                             bool g_persists = true;
                             for (auto const_a : this->problem().task().actions_adding(g)) {
-                                Action a = *this->problem().task().actions()[const_a->index()];
-                                if (!excluded.isset(a.index())) {
+                                unsigned idx = const_a->index();
+
+                                if (!excluded.isset(idx)) {
                                     g_persists = false;
                                     break;
                                 }
@@ -241,9 +250,12 @@ public:
 
                             //If true, then we also have to exclude actions conflicting with that goal as well
                             if (g_persists) {
+
+
                                 persisting_goals.push_back(g);
 
-                                bool excluded_g = exclude_actions(excluded, persisting_goals);
+
+                                bool excluded_g = check_exclude_new_actions(excluded, g);
 
                                 #ifdef DEBUG
                                 std::cout << "\t Implies goal "<< 	this->problem().task().fluents()[g]->signature() << std::endl;
@@ -256,14 +268,27 @@ public:
                                 #endif
 
                                 //Remove the persistent goal if it doesn't exclude any action. This means that the goal was already excluded
-                                if (!excluded_g) persisting_goals.pop_back();
+                                if (!excluded_g)
+                                    persisting_goals.pop_back();
+                                else{
+
+                                    //create excluded persistent_goals if one doesn't exist yet
+                                    auto search_excluded = m_goal_excluded_actions.find( persisting_goals );
+                                    if ( search_excluded == m_goal_excluded_actions.end() ) {
+                                        auto new_item = m_goal_excluded_actions.emplace(persisting_goals, Bit_Set(this->problem().num_actions()));
+                                        exclude_actions( m_goal_excluded_actions[ persisting_goals ], persisting_goals );
+                                    }
+
+                                    //point to excluded set to new persistent goals set
+                                    excluded = m_goal_excluded_actions[ persisting_goals ];
+                                }
 
                                 new_excluded = new_excluded || excluded_g;
 
 
                             }
                         }
-                    }
+                    }while (new_excluded);
 
 					#ifdef DEBUG
 						if ( this->verbose() )
@@ -354,6 +379,19 @@ protected:
 	bool                                    m_consistency_test;
 	Closed_List_Type*			m_closed_goal_states;
     float                    h_val;
+
+    //Data Structures for the computation of exclude_actions
+
+    template <typename Container> // we can make this generic for any container [1]
+    struct container_hash {
+        std::size_t operator()(Container const& c) const {
+            Hash_Key hasher;
+            hasher.add( c );
+            return (size_t)hasher;
+        }
+    };
+
+    std::unordered_map<Fluent_Vec ,Bit_Set, container_hash<Fluent_Vec>> m_goal_excluded_actions;
 };
 
 }
