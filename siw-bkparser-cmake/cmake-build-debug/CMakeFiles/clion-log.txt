@@ -1,4 +1,7 @@
-/home/chao/CLion-2019.3.1/clion-2019.3.1/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/chao/LAPKT-edit/siw-bkparser-cmake
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/siw-bkparser-cmake
+-- Boost version: 1.65.1
+-- Found the following Boost libraries:
+--   program_options
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/chao/LAPKT-edit/siw-bkparser-cmake/cmake-build-debug
+-- Build files have been written to: /mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/siw-bkparser-cmake/cmake-build-debug

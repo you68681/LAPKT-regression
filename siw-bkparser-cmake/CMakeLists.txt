@@ -1,15 +1,15 @@
 # cmake_minimum_required(VERSION <specify CMake version here>)
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.10)
 project(siw_ffparser_cmake)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 include_directories(src)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
 #SET CORRECT PATH TO LAPKT
-set(LAPKT_PATH "/home/chao/LAPKT-edit/LAPKT-public")
+set(LAPKT_PATH "/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW//LAPKT-public")
 
 #Bring the headers, such as Student.h into the project
 include_directories(
@@ -30,23 +30,23 @@ file(GLOB SOURCES
         )
 
 #Compile Static library containing FF-parser
-add_library(libff STATIC
-        ${LAPKT_PATH}/external/libff/expressions.c
-        ${LAPKT_PATH}/external/libff/inst_easy.c
-        ${LAPKT_PATH}/external/libff/inst_final.c
-        ${LAPKT_PATH}/external/libff/inst_hard.c
-        ${LAPKT_PATH}/external/libff/inst_pre.c
-        ${LAPKT_PATH}/external/libff/lex.fct_pddl.c
-        ${LAPKT_PATH}/external/libff/lex.ops_pddl.c
-        ${LAPKT_PATH}/external/libff/libff.c
-        ${LAPKT_PATH}/external/libff/memory.c
-        ${LAPKT_PATH}/external/libff/output.c
-        ${LAPKT_PATH}/external/libff/parse.c
-        ${LAPKT_PATH}/external/libff/relax.c
-        ${LAPKT_PATH}/external/libff/scan-fct_pddl.tab.c
-        ${LAPKT_PATH}/external/libff/scan-ops_pddl.tab.c
-        ${LAPKT_PATH}/external/libff/search.c
-        ${LAPKT_PATH}/external/libff/utility.c )
+#add_library(libff STATIC
+#        ${LAPKT_PATH}/external/libff/expressions.c
+#        ${LAPKT_PATH}/external/libff/inst_easy.c
+#        ${LAPKT_PATH}/external/libff/inst_final.c
+#        ${LAPKT_PATH}/external/libff/inst_hard.c
+#        ${LAPKT_PATH}/external/libff/inst_pre.c
+#        ${LAPKT_PATH}/external/libff/lex.fct_pddl.c
+#        ${LAPKT_PATH}/external/libff/lex.ops_pddl.c
+#        ${LAPKT_PATH}/external/libff/libff.c
+#        ${LAPKT_PATH}/external/libff/memory.c
+#        ${LAPKT_PATH}/external/libff/output.c
+#        ${LAPKT_PATH}/external/libff/parse.c
+#        ${LAPKT_PATH}/external/libff/relax.c
+#        ${LAPKT_PATH}/external/libff/scan-fct_pddl.tab.c
+#        ${LAPKT_PATH}/external/libff/scan-ops_pddl.tab.c
+#        ${LAPKT_PATH}/external/libff/search.c
+#        ${LAPKT_PATH}/external/libff/utility.c )
 
 #Add EXECUTABLE target
 add_executable(siw ${SOURCES})

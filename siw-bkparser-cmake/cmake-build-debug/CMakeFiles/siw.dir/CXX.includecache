@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/chao/LAPKT-edit/LAPKT-public/external/libff/ff.h
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/external/libff/ff.h
 stdlib.h
 -
 stdio.h
@@ -22,15 +22,15 @@ sys/timeb.h
 sys/times.h
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/external/libff/libff.h
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/external/libff/libff.h
 string
 -
 vector
 -
 ff.h
-/home/chao/LAPKT-edit/LAPKT-public/external/libff/ff.h
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/external/libff/ff.h
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/bit_array.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/bit_array.hxx
 cstring
 -
 cassert
@@ -38,7 +38,13 @@ cassert
 cstdint
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/bit_set.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/bit_set.cxx
+aptk/bit_set.hxx
+-
+limits
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/bit_set.hxx
 aptk/bit_array.hxx
 -
 iostream
@@ -48,7 +54,7 @@ cassert
 limits
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/brfs.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/brfs.hxx
 aptk/search_prob.hxx
 -
 aptk/resources_control.hxx
@@ -66,13 +72,13 @@ algorithm
 iostream
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/closed_list.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/closed_list.hxx
 unordered_map
 -
 utility
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/ext_math.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/ext_math.hxx
 limits
 -
 utility
@@ -80,7 +86,7 @@ utility
 math.h
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/hash_table.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/hash_table.hxx
 vector
 -
 list
@@ -90,13 +96,13 @@ algorithm
 aptk/jenkins_12bit.hxx
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/heuristic.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/heuristic.hxx
 aptk/search_prob.hxx
 -
 vector
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/iw.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/iw.hxx
 aptk/search_prob.hxx
 -
 aptk/resources_control.hxx
@@ -112,11 +118,17 @@ algorithm
 iostream
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/jenkins_12bit.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/jenkins_12bit.hxx
 cstdlib
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/resources_control.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/memory.hxx
+sys/time.h
+-
+sys/resource.h
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/resources_control.hxx
 sys/times.h
 -
 sys/resource.h
@@ -128,7 +140,7 @@ iostream
 iomanip
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/search_prob.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/search_prob.hxx
 iostream
 -
 cassert
@@ -138,7 +150,7 @@ limits
 vector
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/serialized_search.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/serialized_search.hxx
 aptk/search_prob.hxx
 -
 aptk/resources_control.hxx
@@ -154,7 +166,7 @@ algorithm
 iostream
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/siw.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/siw.hxx
 aptk/search_prob.hxx
 -
 aptk/resources_control.hxx
@@ -174,7 +186,7 @@ algorithm
 iostream
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/include/aptk/string_conversions.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/include/aptk/string_conversions.hxx
 string
 -
 vector
@@ -184,7 +196,13 @@ iostream
 sstream
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/action.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/action.cxx
+action.hxx
+-
+iostream
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/action.hxx
 types.hxx
 -
 strips_prob.hxx
@@ -196,7 +214,13 @@ cond_eff.hxx
 iosfwd
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/bwd_search_prob.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/bwd_search_prob.cxx
+bwd_search_prob.hxx
+-
+algorithm
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/bwd_search_prob.hxx
 strips_prob.hxx
 -
 aptk/search_prob.hxx
@@ -208,7 +232,11 @@ strips_state.hxx
 h_2.hxx
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/cond_eff.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/cond_eff.cxx
+cond_eff.hxx
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/cond_eff.hxx
 types.hxx
 -
 strips_prob.hxx
@@ -216,13 +244,59 @@ strips_prob.hxx
 strips_state.hxx
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/fluent.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/conj_comp_prob.cxx
+conj_comp_prob.hxx
+-
+cassert
+-
+iostream
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/conj_comp_prob.hxx
+strips_prob.hxx
+-
+action.hxx
+-
+fl_conj.hxx
+-
+algorithm
+-
+utility
+-
+iosfwd
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/fl_conj.cxx
+fl_conj.hxx
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/fl_conj.hxx
+algorithm
+-
+iostream
+-
 types.hxx
 -
 strips_prob.hxx
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/fwd_search_prob.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/fluent.cxx
+fluent.hxx
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/fluent.hxx
+types.hxx
+-
+strips_prob.hxx
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/fwd_search_prob.cxx
+fwd_search_prob.hxx
+-
+algorithm
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/fwd_search_prob.hxx
 strips_prob.hxx
 -
 aptk/search_prob.hxx
@@ -232,7 +306,7 @@ action.hxx
 strips_state.hxx
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/h_1.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/h_1.hxx
 aptk/search_prob.hxx
 -
 aptk/heuristic.hxx
@@ -250,7 +324,7 @@ vector
 deque
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/h_2.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/h_2.hxx
 aptk/search_prob.hxx
 -
 aptk/heuristic.hxx
@@ -270,7 +344,13 @@ list
 iosfwd
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/landmark_graph.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/landmark_graph.cxx
+landmark_graph.hxx
+-
+cassert
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/landmark_graph.hxx
 aptk/search_prob.hxx
 -
 aptk/heuristic.hxx
@@ -288,7 +368,7 @@ deque
 iosfwd
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/landmark_graph_generator.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/landmark_graph_generator.hxx
 aptk/search_prob.hxx
 -
 aptk/heuristic.hxx
@@ -312,7 +392,21 @@ deque
 iosfwd
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/match_tree.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/match_tree.cxx
+match_tree.hxx
+-
+strips_prob.hxx
+-
+strips_state.hxx
+-
+action.hxx
+-
+algorithm
+-
+iostream
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/match_tree.hxx
 types.hxx
 -
 vector
@@ -322,7 +416,19 @@ string
 set
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/mutex_set.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/mutex_set.cxx
+mutex_set.hxx
+-
+strips_prob.hxx
+-
+fluent.hxx
+-
+action.hxx
+-
+ostream
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/mutex_set.hxx
 aptk/bit_array.hxx
 -
 types.hxx
@@ -332,7 +438,7 @@ vector
 iosfwd
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/novelty.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/novelty.hxx
 aptk/search_prob.hxx
 -
 aptk/heuristic.hxx
@@ -348,7 +454,15 @@ vector
 deque
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/reachability.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/reachability.cxx
+reachability.hxx
+-
+action.hxx
+-
+bwd_search_prob.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/bwd_search_prob.hxx
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/reachability.hxx
 strips_prob.hxx
 -
 types.hxx
@@ -360,7 +474,21 @@ vector
 aptk/search_prob.hxx
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/strips_prob.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/strips_prob.cxx
+strips_prob.hxx
+-
+action.hxx
+-
+fluent.hxx
+-
+cassert
+-
+map
+-
+iostream
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/strips_prob.hxx
 string
 -
 map
@@ -378,7 +506,23 @@ algorithm
 mutex_set.hxx
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/strips_state.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/strips_state.cxx
+strips_state.hxx
+-
+action.hxx
+-
+fluent.hxx
+-
+aptk/hash_table.hxx
+-
+aptk/resources_control.hxx
+-
+iostream
+-
+cassert
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/strips_state.hxx
 strips_prob.hxx
 -
 types.hxx
@@ -388,7 +532,21 @@ fluent.hxx
 iostream
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/succ_gen.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/succ_gen.cxx
+succ_gen.hxx
+-
+strips_prob.hxx
+-
+strips_state.hxx
+-
+action.hxx
+-
+algorithm
+-
+iostream
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/succ_gen.hxx
 types.hxx
 -
 deque
@@ -396,7 +554,7 @@ deque
 vector
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/agnostic/types.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/types.hxx
 map
 -
 vector
@@ -408,7 +566,39 @@ utility
 aptk/bit_set.hxx
 -
 
-/home/chao/LAPKT-edit/LAPKT-public/interfaces/ff-wrapped/ff_to_aptk.hxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/watched_lit_succ_gen.cxx
+watched_lit_succ_gen.hxx
+-
+strips_prob.hxx
+-
+strips_state.hxx
+-
+action.hxx
+-
+limits
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/agnostic/watched_lit_succ_gen.hxx
+vector
+-
+queue
+-
+functional
+-
+memory
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/ff-wrapped/ff_to_aptk.cxx
+ff_to_aptk.hxx
+-
+action.hxx
+-
+iostream
+-
+algorithm
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/interfaces/ff-wrapped/ff_to_aptk.hxx
 string
 -
 strips_prob.hxx
@@ -416,7 +606,23 @@ strips_prob.hxx
 libff/libff.h
 -
 
-/home/chao/LAPKT-edit/siw-bkparser-cmake/src/main.cxx
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/src/bit_array.cxx
+aptk/bit_array.hxx
+-
+iostream
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/src/bit_set.cxx
+aptk/bit_set.hxx
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/LAPKT-public/src/memory.cxx
+aptk/memory.hxx
+-
+iostream
+-
+
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/siw-bkparser-cmake/src/main.cxx
 iostream
 -
 fstream

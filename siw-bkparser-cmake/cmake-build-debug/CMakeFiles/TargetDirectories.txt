@@ -1,4 +1,3 @@
-/home/chao/LAPKT-edit/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/chao/LAPKT-edit/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/chao/LAPKT-edit/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/libff.dir
-/home/chao/LAPKT-edit/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/siw.dir
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/siw.dir
+/mnt/c/Users/nirli/Documents/GitHub/Chao-Bwd-IW/siw-bkparser-cmake/cmake-build-debug/CMakeFiles/edit_cache.dir

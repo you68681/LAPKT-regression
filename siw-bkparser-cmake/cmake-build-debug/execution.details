@@ -89,10 +89,10 @@ Plan found with cost: 90
 88. (UNSTACK P N)
 89. (PUT-DOWN G)
 90. (UNSTACK G P)
-Time: 36.2079
+Time: 1710.03
 Generated: 45557
 Expanded: 27300
-Total time: 36.2079
+Total time: 1710.03
 Nodes generated during search: 45558
 Nodes expanded during search: 27300
 Nodes pruned by bound: 125575
