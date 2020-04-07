@@ -272,3 +272,9 @@ siw-bkparser-cmake/cmake-build-debug/plan.ipc
 siw-bkparser-cmake/cmake-build-debug/siw
 siw-bkparser-cmake/cmake-build-debug/siw_ffparser_cmake.cbp
 siw-bkparser-cmake/CMakeLists.txt
+*.c
+*.bak
+*.xml
+*.xml
+*.cmake
+*.txt
