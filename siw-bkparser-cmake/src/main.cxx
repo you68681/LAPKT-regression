@@ -220,10 +220,19 @@ int main( int argc, char** argv ) {
 	else
 	    prob.compute_edeletes();
 
-	//std::ofstream h2_stream;
-	//h2_stream.open("h2values.txt");
-	//search_prob.h2_fwd().print_values(h2_stream);
-	//h2_stream.close();
+	std::ofstream h2_stream;
+	h2_stream.open("h2values.txt");
+	search_prob.h2_fwd().print_values(h2_stream);
+	h2_stream.close();
+
+    //for (unsigned i = 0; i < prob.num_actions(); ++i ) {
+    //    std::ofstream action_stream;
+    //    action_stream.open("action.txt",std::ios::app);
+    //    prob.actions()[i]->print(prob,action_stream);
+    //    action_stream.close();
+    //}
+
+
 
 
 //	Gen_Lms_Fwd    gen_lms( search_prob );

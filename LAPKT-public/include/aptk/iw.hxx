@@ -185,18 +185,18 @@ protected:
                 continue;
 			} else{
 			    n = new Search_Node( NULL , a, head, this->problem().task().actions()[ a ]->cost() );
-                State *succ = this->problem().next( *(head->state()), a );
+                State *succ = this->problem().next( *(head->state()), a );;
+                std::ofstream h2_stream;
+                h2_stream.open("action_record.txt",std::ios::app);
+                //search_prob.h2_fwd().print_values(h2_stream);
+                //h2_stream.close();
                 n->set_state(succ);
-               // head->state()->print(std::cout);
-                //this->problem().task().actions()[ a ]->print(this->problem().task(),std::cout);
-                //succ->print(std::cout);
+                head->state()->print(h2_stream);
+                this->problem().task().actions()[ a ]->print(this->problem().task(),h2_stream);
+                succ->print(h2_stream);
+                h2_stream.close();
+
 			}
-
-
-
-
-
-
 			if ( this->is_closed( n ) ) {
 				delete n;
 				continue;

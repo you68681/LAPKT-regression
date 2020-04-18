@@ -1,6 +1,0 @@
-(STACK D C)
-(PICK-UP D)
-(STACK C B)
-(PICK-UP C)
-(STACK B A)
-(PICK-UP B)
