@@ -211,6 +211,8 @@ int main( int argc, char** argv ) {
     bwd_Search_Problem	search_prob( &prob );
 
 	//Compute mutexes and edeletes FWD!
+
+
     Fwd_Search_Problem	fwd_search_prob( &prob );
 	if ( !prob.has_conditional_effects() ) {
 		H2_Fwd*  h2 = new H2_Fwd( fwd_search_prob );
@@ -225,6 +227,26 @@ int main( int argc, char** argv ) {
 	search_prob.h2_fwd().print_values(h2_stream);
 	h2_stream.close();
 
+
+  /**
+    Fwd_Search_Problem	fwd_search_prob( &prob );
+    if ( !prob.has_conditional_effects() ) {
+        float h2val;
+        H2_Fwd*  h2 = new H2_Fwd( fwd_search_prob );
+        aptk::State *s=fwd_search_prob.init_state();
+
+        //h2->compute_edeletes( prob );
+        h2->eval(*s,h2val);
+        search_prob.set_h2_fwd(h2);
+    }
+    else
+        prob.compute_edeletes();
+
+    std::ofstream h2_stream;
+    h2_stream.open("h2values.txt");
+    search_prob.h2_fwd().print_values(h2_stream);
+    h2_stream.close();
+
     //for (unsigned i = 0; i < prob.num_actions(); ++i ) {
     //    std::ofstream action_stream;
     //    action_stream.open("action.txt",std::ios::app);
@@ -233,7 +255,7 @@ int main( int argc, char** argv ) {
     //}
 
 
-
+**/
 
 //	Gen_Lms_Fwd    gen_lms( search_prob );
 //	Landmarks_Graph graph( prob );

@@ -543,6 +543,7 @@ protected:
 						if ( cost_opt == H2_Cost_Function::Use_Costs ) v += action.cost();
 						if ( v < curr_value ) {
 							value(p,q) = v;
+
 							int curr_idx = H2_Helper::pair_index(p,q);
 							if ( !m_already_updated.isset( curr_idx ) ) {
 								m_updated.push_back( curr_idx );
@@ -553,6 +554,7 @@ protected:
 								m_updated.push_back( curr_idx );
 								m_already_updated.set( curr_idx );
 							}
+
 							curr_idx = H2_Helper::pair_index(q,q);
 							if ( !m_already_updated.isset( curr_idx ) ) {
 								m_updated.push_back( curr_idx );
@@ -602,7 +604,7 @@ protected:
 
 /** original version
  *
-
+   */
 	void compute_mutexes_only() {
 
 		while ( !m_updated.empty() ) {
@@ -616,11 +618,6 @@ protected:
 
 				const Action& action = *(m_strips_model.actions()[*action_it]);
 				unsigned a = action.index();
-                //if (a==127|| a==114 || a==174){
-                //    std::cout<<"find"<<std::endl;
-                //}
-
-
 
 				op_value(a) = eval( action.prec_vec() );
 				if ( op_value(a) == infty ) continue;
@@ -636,6 +633,7 @@ protected:
 						if ( !m_already_updated.isset( curr_idx ) ) {
 							m_updated.push_back( curr_idx );
 							m_already_updated.set( curr_idx );
+
 						}
 						curr_idx = H2_Helper::pair_index(p,p);
 						if ( !m_already_updated.isset( curr_idx ) ) {
@@ -656,10 +654,12 @@ protected:
 						float h2_pre_noop = std::max( op_value(a), value(r,r) );
 						if ( h2_pre_noop == infty ) continue;
 						for ( unsigned j = 0; j < action.prec_vec().size(); j++ ) {
-							unsigned s = action.prec_vec()[j];
+                            unsigned s = action.prec_vec()[j];
 
-							h2_pre_noop = std::max( h2_pre_noop, value(r,s) );
+                            h2_pre_noop = std::max(h2_pre_noop, value(r, s));
+                        }
 
+							/**
 							if ( h2_pre_noop == infty ) {
 
 							    //Check the reverse other: if action adding precondition s do not conflict with r, then value(r,s)==infy should be ignored.
@@ -692,7 +692,8 @@ protected:
 
                             }
 						}
-						
+						*/
+
 						if ( h2_pre_noop == infty ) continue;
 
 						value(p,r) = 0.0f;
@@ -709,7 +710,15 @@ protected:
 						if ( !m_already_updated.isset( curr_idx ) ) {
 							m_updated.push_back( curr_idx );
 							m_already_updated.set( curr_idx );
-						}													
+						}
+						/** new add
+						 *
+						 */
+                        curr_idx = H2_Helper::pair_index(p,p);
+                        if ( !m_already_updated.isset( curr_idx ) ) {
+                            m_updated.push_back( curr_idx );
+                            m_already_updated.set( curr_idx );
+                        }
 					}
 
 				}
@@ -718,10 +727,10 @@ protected:
 
 
     }
-    */
+
     /**chao edit
      *
-     */
+
     void compute_mutexes_only() {
         std::vector<float>			m_values_record;
         bool different  = true;
@@ -854,6 +863,7 @@ protected:
 
 
     }
+      */
     bool compare(std::vector<float>vec_1,std::vector<float>vec_2){
 
 
