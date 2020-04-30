@@ -227,7 +227,8 @@ int main( int argc, char** argv ) {
 	h2_stream.close();
 
 
-  /**
+
+    /**
     Fwd_Search_Problem	fwd_search_prob( &prob );
     if ( !prob.has_conditional_effects() ) {
         float h2val;
@@ -245,7 +246,7 @@ int main( int argc, char** argv ) {
     h2_stream.open("h2values.txt");
     search_prob.h2_fwd().print_values(h2_stream);
     h2_stream.close();
-
+    */
     //for (unsigned i = 0; i < prob.num_actions(); ++i ) {
     //    std::ofstream action_stream;
     //    action_stream.open("action.txt",std::ios::app);
@@ -254,7 +255,6 @@ int main( int argc, char** argv ) {
     //}
 
 
-**/
 
 //	Gen_Lms_Fwd    gen_lms( search_prob );
 //	Landmarks_Graph graph( prob );
