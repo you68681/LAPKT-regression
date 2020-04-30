@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <action.hxx>
 #include <iostream>
 #include <algorithm>
+#include <sstream>
 
 namespace aptk
 {
@@ -57,7 +58,34 @@ void	get_problem_description( std::string pddl_domain_path,
 	Fluent_Vec I, G;
 	FF::get_initial_state( I );
 	FF::get_goal_state( G );
-	STRIPS_Problem::set_init( strips_problem, I);
+
+    /** chao add the negation
+     *
+    */
+    Fluent_Vec negFluents;
+    Fluent_Set negFluentsSet;
+    std::map <unsigned , unsigned > dic;
+    negFluentsSet.resize(strips_problem.fluents().size()+1);
+
+    for (unsigned p : G){
+        if (std::find(I.begin(), I.end(), p) != I.end()){
+            continue;
+        } else{
+            negFluents.push_back(p);
+        }
+    }
+    for (unsigned p: negFluents ){
+        negFluentsSet.set(p);
+        std::stringstream buffer;
+        buffer<<"(not-"<<strips_problem.fluents()[p]->signature()<<")";
+        unsigned  fl_idx = aptk::STRIPS_Problem::add_fluent(strips_problem,buffer.str());
+        dic.insert(std::pair<int, int>(p, fl_idx));
+        I.push_back(fl_idx);
+
+    }
+
+
+    STRIPS_Problem::set_init( strips_problem, I);
 	STRIPS_Problem::set_goal( strips_problem, G);
 
 	//	std::cout << "Operators in problem:" << gnum_ef_conn << std::endl;
@@ -178,7 +206,24 @@ void	get_problem_description( std::string pddl_domain_path,
 			for ( int j = 0; j < gef_conn[i].num_D; j++ )
 				op_dels.push_back( gef_conn[i].D[j] );
 
-			float op_cost = 0;
+            /** chao add the negation
+           *
+            */
+            for ( int j = 0; j < op_adds.size(); j++ ){
+                if (negFluentsSet.isset(op_adds[j])){
+                    op_dels.push_back(dic[op_adds[j]]);
+                    op_precs.push_back(dic[op_adds[j]]);
+                }
+            }
+
+            for ( int j = 0; j < op_dels.size(); j++ ){
+                if (negFluentsSet.isset(op_dels[j])){
+                    op_adds.push_back(dic[op_dels[j]]);
+                }
+            }
+
+
+            float op_cost = 0;
 			if(with_costs)
 			{
 				if ( gef_conn[i].num_IN == 0 ) {

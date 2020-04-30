@@ -212,8 +212,7 @@ int main( int argc, char** argv ) {
 
 	//Compute mutexes and edeletes FWD!
 
-
-    Fwd_Search_Problem	fwd_search_prob( &prob );
+	Fwd_Search_Problem	fwd_search_prob( &prob );
 	if ( !prob.has_conditional_effects() ) {
 		H2_Fwd*  h2 = new H2_Fwd( fwd_search_prob );
 	 	h2->compute_edeletes( prob );
