@@ -304,12 +304,12 @@ public:
                     #endif
 
 					if(m_reachability->is_reachable( s->fluent_vec() , this->problem().goal() , excluded  ) ) {
-                        std::ofstream h2_stream;
-                        h2_stream.open("action_record.txt",std::ios::app);
-                        h2_stream<<"\t New Consistent Goal "<<this->problem().task().fluents()[ *it ]->signature() <<"\n";
+                        //std::ofstream h2_stream;
+                        //h2_stream.open("action_record.txt",std::ios::app);
+                        //h2_stream<<"\t New Consistent Goal "<<this->problem().task().fluents()[ *it ]->signature() <<"\n";
                         std::cout << "\t New Consistent Goal " << this->problem().task().fluents()[ *it ]->signature()<<std::endl;
                         new_goal_achieved = true;
-                        h2_stream.close();
+                        //h2_stream.close();
                     }
 					else{	
 						unachieved.push_back( *it );

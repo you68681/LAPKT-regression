@@ -278,3 +278,9 @@ siw-bkparser-cmake/CMakeLists.txt
 *.xml
 *.cmake
 *.txt
+
+Nir_results/
+
+execution.details
+
+visit-all-sequential-optimal/
