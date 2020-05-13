@@ -77,8 +77,8 @@ float do_search( Search_Engine& engine, STRIPS_Problem& plan_prob, float bound, 
 
 
 	std::ofstream	details( "execution.details" );
-//    engine.set_bound(1);
-	engine.set_bound(2);
+    engine.set_bound(1);
+//	engine.set_bound(2);
 	engine.set_max_bound(bound-1);
 	engine.start();
 
@@ -256,11 +256,11 @@ int main( int argc, char** argv ) {
 
 
 
-//	Gen_Lms_Fwd    gen_lms( search_prob );
-//	Landmarks_Graph graph( prob );
+	Gen_Lms_Fwd    gen_lms( search_prob );
+	Landmarks_Graph graph( prob );
 //
-//	gen_lms.set_only_goals( true );
-//	gen_lms.compute_lm_graph_set_additive( graph );
+	gen_lms.set_only_goals( true );
+	gen_lms.compute_lm_graph_set_additive( graph );
 //
 //	std::cout << "Landmarks found: " << graph.num_landmarks() << std::endl;
 //	graph.print( std::cout );

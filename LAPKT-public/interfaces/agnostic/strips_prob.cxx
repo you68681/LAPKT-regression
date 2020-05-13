@@ -45,6 +45,9 @@ namespace aptk
 		m_requiring.resize( fluents().size() );
 		m_deleting.resize( fluents().size() );
 		m_edeleting.resize( fluents().size() );
+        /**chao edit
+        */
+        m_bwd_edeleting.resize( fluents().size() );
 		m_adding.resize( fluents().size() );
 		m_ceffs_adding.resize( fluents().size() );
 		

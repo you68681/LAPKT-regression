@@ -44,6 +44,8 @@ public:
 	Fluent_Set&	           	del_set()  { return m_del_set; }
 	Fluent_Vec&	           	edel_vec()  { return m_edel_vec; }
 	Fluent_Set&	           	edel_set()  { return m_edel_set; }
+    Fluent_Vec&	           	bwd_edel_vec()  { return m_bwd_edel_vec; }
+    Fluent_Set&	           	bwd_edel_set()  { return m_bwd_edel_set; }
 	Conditional_Effect_Vec&    	ceff_vec(){ return m_cond_effects; }
 
 	const Fluent_Vec&		prec_vec() const { return m_prec_vec; }
@@ -54,6 +56,8 @@ public:
 	const Fluent_Set&	        del_set()  const { return m_del_set; }
 	const Fluent_Vec&	        edel_vec()  const { return m_edel_vec; }
 	const Fluent_Set&	        edel_set()  const { return m_edel_set; }
+    const Fluent_Vec&	        bwd_edel_vec()  const { return m_bwd_edel_vec; }
+    const Fluent_Set&	        bwd_edel_set()  const { return m_bwd_edel_set; }
 	const Conditional_Effect_Vec&   ceff_vec() const { return m_cond_effects; }
 	
         bool                            has_ceff() const {return !m_cond_effects.empty(); }
@@ -112,6 +116,8 @@ protected:
 	Fluent_Set			m_del_set;
 	Fluent_Vec			m_edel_vec;
 	Fluent_Set			m_edel_set;
+    Fluent_Vec			m_bwd_edel_vec;
+    Fluent_Set			m_bwd_edel_set;
 	VarVal_Vec			m_prec_varval;
 	Conditional_Effect_Vec		m_cond_effects;
 	float				m_cost;	

@@ -90,7 +90,7 @@ def cmd(command,result_dict,file):
             result_dict[file]["Nodes generated during search"] = "--"
             result_dict[file]["Nodes expanded during search"] = "--"
             result_dict[file]["IW search completed in"] = "--"
-            result_dict[file]["Nodes pruned by mutex"] = "--"
+#            result_dict[file]["Nodes pruned by mutex"] = "--"
             result_dict[file]["Nodes pruned by bound"] = "--"
             result_dict[file]["Plan found with cost"] = "no plan"
     if subp.poll() == 0:
@@ -117,7 +117,7 @@ def cmd(command,result_dict,file):
         result_dict[file]["Nodes generated during search"] = "time out"
         result_dict[file]["Nodes expanded during search"] = "time out"
         result_dict[file]["IW search completed in"] = "time out"
-        result_dict[file]["Nodes pruned by mutex"] = "time out"
+#        result_dict[file]["Nodes pruned by mutex"] = "time out"
         result_dict[file]["Nodes pruned by bound"] = "time out"
         result_dict[file]["Plan found with cost"] = "no plan"
     return result_dict
@@ -129,13 +129,17 @@ def write(output_list, output_file):
 
     with open(output_file, "w") as f:
         writer = csv.writer(f)
-        writer.writerow(["file name", "Nodes pruned by mutex","Nodes pruned by bound","Plan found with cost", "Total time", "Nodes generated during search", "Nodes expanded during search",
-                  "IW search completed in"])
+#        writer.writerow(["file name", "Nodes pruned by mutex","Nodes pruned by bound","Plan found with cost", "Total time", "Nodes generated during search", "Nodes expanded during search",
+#                  "IW search completed in"])
+        writer.writerow(
+            ["file name", "Nodes pruned by bound", "Plan found with cost", "Total time",
+             "Nodes generated during search", "Nodes expanded during search",
+                             "IW search completed in"])
         for row in output_list:
             writer.writerow(row)
 
 def run_bfws(domain):
-    subprocess.Popen("mkdir /home/chao/LAPKT-edit/Nir_results/negation_ignore/"+domain, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
+    subprocess.Popen("mkdir /home/chao/LAPKT-edit/Nir_results/FW_1/"+domain, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
     path = os.path.join("/home/chao/LAPKT-edit/new-pddl-domains",domain,"instances")
     domain_path=os.path.join("/home/chao/LAPKT-edit/new-pddl-domains",domain,"domain.pddl")
     files = os.listdir( path)
@@ -144,7 +148,7 @@ def run_bfws(domain):
     files.sort()
     for file in files:
         print(file)
-        cmd("/home/chao/LAPKT-edit/siw-bkparser-cmake/cmake-build-debug/siw --domain "+ domain_path+" --problem "+os.path.join(path,file)+" --output /home/chao/LAPKT-edit/Nir_results/negation_ignore/"+domain+"/" + file + "_result.txt --bound 2",result_dict,file)
+        cmd("/home/chao/LAPKT_Forward/siw_forward_cmake/cmake-build-debug/siw --domain "+ domain_path+" --problem "+os.path.join(path,file)+" --output /home/chao/LAPKT-edit/Nir_results/FW_1/"+domain+"/" + file + "_result.txt --bound 1",result_dict,file)
     result_out_put = {}
 
     out_put_list = []
@@ -152,7 +156,10 @@ def run_bfws(domain):
     result_dict_keys = sorted(result_dict.keys())
     for key in result_dict_keys:
         temp_list = []
-        for i in ["Nodes pruned by mutex", "Nodes pruned by bound", "Plan found with cost", "Total time",
+        #for i in ["Nodes pruned by mutex", "Nodes pruned by bound", "Plan found with cost", "Total time",
+        #              "Nodes generated during search", "Nodes expanded during search",
+        #              "IW search completed in"]:
+        for i in [ "Nodes pruned by bound", "Plan found with cost", "Total time",
                       "Nodes generated during search", "Nodes expanded during search",
                       "IW search completed in"]:
             temp_list.append(result_dict[key][i])
@@ -165,7 +172,7 @@ def run_bfws(domain):
             temp_list.append(result_out_put[key][i])
         out_put_list.append(temp_list)
 
-    write(out_put_list,os.path.join("/home/chao/LAPKT-edit/Nir_results/negation_ignore",domain,"result.csv"))
+    write(out_put_list,os.path.join("/home/chao/LAPKT-edit/Nir_results/FW_1",domain,"result.csv"))
 
 def start():
     files = os.listdir("/home/chao/LAPKT-edit/new-pddl-domains")

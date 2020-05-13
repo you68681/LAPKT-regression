@@ -211,7 +211,7 @@ void	get_problem_description( std::string pddl_domain_path,
             */
             for ( int j = 0; j < op_adds.size(); j++ ){
                 if (negFluentsSet.isset(op_adds[j])){
-                    //op_dels.push_back(dic[op_adds[j]]);
+                    op_dels.push_back(dic[op_adds[j]]);
                     op_precs.push_back(dic[op_adds[j]]);
                 }
             }

@@ -113,7 +113,7 @@ State * bwd_Search_Problem::next(const State& s, Action_Idx a)const  {
 //	std::cout<<"VVVVVVVV"<<std::endl;
 //	act.print(task(),std::cout);
 //	State* succ = s.progress_through( act );
-	State* succ = s.regress_through( act );
+	State* succ = s.regress_through_without_check(act );
 //    std::cout<<"BBBBBBBBBB"<<std::endl;
 //    succ->print(std::cout);
 	succ->update_hash();

@@ -31,6 +31,10 @@ Action::Action( STRIPS_Problem& p )
 	add_set().resize( p.num_fluents() );
 	del_set().resize( p.num_fluents() );
 	edel_set().resize( p.num_fluents() );
+    /** chao edit
+     *
+     */
+    bwd_edel_set().resize(p.num_fluents());
 }
 
 Action::~Action()
@@ -44,6 +48,10 @@ void Action::define( const Fluent_Vec& precs, const Fluent_Vec& adds, const Flue
 	define_fluent_list( adds, add_vec(), add_set() );
 	define_fluent_list( dels, del_vec(), del_set() );
 	define_fluent_list( dels, edel_vec(), edel_set() );
+    /** chao edit
+     *
+     */
+    define_fluent_list( dels, bwd_edel_vec(), bwd_edel_set() );
 	
 	// TODO: This should be made far more complex when mutex's are properly computed
 	for ( unsigned i = 0; i < precs.size(); ++i)

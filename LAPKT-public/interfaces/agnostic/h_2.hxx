@@ -400,6 +400,40 @@ protected:
 				}
 
 			}
+            for (unsigned a = 0; a < m_strips_model.num_actions(); a++) {
+                bool is_bwd_edelete = false;
+                Action &action = *(prob.actions()[a]);
+                //backward edel (regression)
+                for (unsigned i = 0; i < action.prec_vec().size(); i++) {
+                    unsigned q = action.prec_vec()[i];
+                    if (value(p, q) == infty) {
+                        is_bwd_edelete = true;
+                        prob.actions()[a]->bwd_edel_vec().push_back(p);
+                        prob.actions()[a]->bwd_edel_set().set(p);
+                        prob.actions_bwd_edeleting(p).push_back((const Action *) &action);
+                        break;
+                    }
+                }
+                if (is_bwd_edelete) continue;
+                /** need or not
+                 *
+                 */
+                for (unsigned i = 0; i < action.add_vec().size(); i++) {
+                    unsigned r = action.add_vec()[i];
+                    if (!action.prec_set().isset(p) && value(p, r) == infty) {
+                        prob.actions()[a]->bwd_edel_vec().push_back(p);
+                        prob.actions()[a]->bwd_edel_set().set(p);
+                        prob.actions_bwd_edeleting(p).push_back((const Action *) &action);
+                        break;
+                    }
+                }
+
+                if (!action.edel_set().isset(p) && action.add_set().isset(p)) {
+                    prob.actions()[a]->bwd_edel_vec().push_back(p);
+                    prob.actions()[a]->bwd_edel_set().set(p);
+                    prob.actions_bwd_edeleting(p).push_back((const Action *) &action);
+                }
+            }
 		}
 	
 	}

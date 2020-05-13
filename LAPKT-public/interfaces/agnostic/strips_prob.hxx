@@ -194,7 +194,8 @@ namespace aptk
 
 		std::vector<const Action*>&		
 		 			actions_deleting( unsigned f )		{ return m_deleting[f]; }
-
+        std::vector<const Action*>&
+            actions_bwd_edeleting( unsigned f )		{ return m_bwd_edeleting[f]; }
 
 		std::vector<const Action*>&		
 					actions_edeleting( unsigned f )		{ return m_edeleting[f]; }
@@ -206,7 +207,9 @@ namespace aptk
 					actions_deleting( unsigned f ) const	{ return m_deleting[f]; }
 		const std::vector<const Action*>&		
 					actions_edeleting( unsigned f ) const	{ return m_edeleting[f]; }
-		const std::vector<const Action*>&		
+        const std::vector<const Action*>&
+                      actions_bwd_edeleting( unsigned f ) const	{ return m_bwd_edeleting[f]; }
+        const std::vector<const Action*>&
 					actions_requiring( unsigned f ) const	{ return m_requiring[f]; }
 
 		const std::vector<const Action*>&
@@ -287,6 +290,7 @@ namespace aptk
 		Fluent_Action_Table	 						m_requiring;
 		Fluent_Action_Table	 						m_deleting;
 		Fluent_Action_Table	 						m_edeleting;
+        Fluent_Action_Table	 						m_bwd_edeleting;
 		std::vector<bool>	 						m_in_init;
 		std::vector<bool>	 						m_in_goal;
 		unsigned                 						m_end_operator_id;

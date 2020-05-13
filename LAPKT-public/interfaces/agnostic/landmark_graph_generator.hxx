@@ -49,7 +49,7 @@ public:
 	Landmarks_Graph_Generator( const Search_Model& prob ) 
 	:  m_strips_model( prob.task() ), m_only_goals( false ), m_goal_ordering(true), m_h1( prob ), m_verbose( false ), m_collect_lm_in_init(false)
 	{
-		m_reachability = new aptk::agnostic::Reachability_Test(prob, prob.task() );
+		m_reachability = new aptk::agnostic::Reachability_Test( prob.task() );
 	}
 
 	virtual ~Landmarks_Graph_Generator() {
@@ -77,13 +77,21 @@ public:
 				/**
 				 * If all actions adding p edel q, then p must precede q
 				 */
-				const std::vector<const Action*>& add_acts_p = m_strips_model.actions_adding( p );
+                /** chao edit
+                *
+                */
+                const std::vector<const Action*>& add_acts_p = m_strips_model.actions_requiring(p) ;
+				//const std::vector<const Action*>& add_acts_p = m_strips_model.actions_adding( p );
 				
 				bool all_actions_edel_q = true;
 				for ( unsigned k = 0; k < add_acts_p.size(); k++ ) {
 					//add_acts_p[k]->print( m_strips_model, std::cout );
 					//std::cout << m_strips_model.fluents().at(p)->signature() << " edel " << m_strips_model.fluents().at(q)->signature() << "? " <<std::endl;
-					if( ! add_acts_p[k]->edel_set().isset( q ) ){					
+                    //if( ! add_acts_p[k]->edel_set().isset( q ) ){
+                    /** chao edit
+                     *  regression
+                    */
+                    if( ! add_acts_p[k]->bwd_edel_set().isset( q ) ){
 						all_actions_edel_q = false;
 						break;
 					}      
@@ -92,13 +100,20 @@ public:
 				/**
 				 * If all actions adding q edel p, then q must precede p
 				 */
-				
-				const std::vector<const Action*>& add_acts_q = m_strips_model.actions_adding( q );
+                /** chao edit
+                *
+                */
+                const std::vector<const Action*>& add_acts_q = m_strips_model.actions_requiring(q);
+				//const std::vector<const Action*>& add_acts_q = m_strips_model.actions_adding( q );
 				bool all_actions_edel_p = true;
 				for ( unsigned k = 0; k < add_acts_q.size(); k++ ) {
 					//add_acts_q[k]->print( m_strips_model, std::cout );
 					//std::cout << m_strips_model.fluents().at(q)->signature() << " edel " << m_strips_model.fluents().at(p)->signature() << "? " <<std::endl;
-					if( ! add_acts_q[k]->edel_set().isset( p ) ){				       
+					//if( ! add_acts_q[k]->edel_set().isset( p ) ){
+                    /** chao edit
+                     *  rgression
+                    */
+                    if( ! add_acts_q[k]->bwd_edel_set().isset( p ) ){
 						all_actions_edel_p = false;
 						break;
 					}      

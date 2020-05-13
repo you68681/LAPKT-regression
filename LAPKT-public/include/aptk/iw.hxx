@@ -181,6 +181,8 @@ protected:
 
 			Search_Node *n= NULL;
 			if (is_mutex){
+			   // head->state()->print(std::cout);
+                //a_ptr->print(this->problem().task(),std::cout);
 			    this->inc_pruned_mutex();
                 continue;
 			} else{
