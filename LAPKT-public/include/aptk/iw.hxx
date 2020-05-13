@@ -179,14 +179,14 @@ protected:
                 if (is_mutex) break;
 			}
 
-			Search_Node *n= NULL;
+			Search_Node *n= nullptr;
 			if (is_mutex){
 			   // head->state()->print(std::cout);
                 //a_ptr->print(this->problem().task(),std::cout);
 			    this->inc_pruned_mutex();
                 continue;
 			} else{
-			    n = new Search_Node( NULL , a, head, this->problem().task().actions()[ a ]->cost() );
+			    n = new Search_Node(nullptr , a, head, this->problem().task().actions()[ a ]->cost() );
                 State *succ = this->problem().next( *(head->state()), a );;
                 //std::ofstream h2_stream;
                 //h2_stream.open("action_record.txt",std::ios::app);
@@ -221,6 +221,8 @@ protected:
 					//	std::cout << this->problem().task().actions()[ n->action() ]->signature() << std::endl;
 					}
 					//#endif
+					//std::cout<<"=====prune======"<<std::endl;
+					//n->parent()->state()->print(std::cout);
 					delete n;
 					continue;
 				}
@@ -240,7 +242,6 @@ protected:
 
 				this->open_node(n);
 //				std::cout<<"goal: "<<this->is_goal(n)<<std::endl;
-
 				if( this->is_goal( n ) )
 					return n;
 			}

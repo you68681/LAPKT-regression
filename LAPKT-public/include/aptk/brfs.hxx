@@ -170,8 +170,11 @@ public:
 		if( n->has_state() )
 			return m_problem.goal( *(n->state()) ); 
 		else{			
-			n->parent()->state()->progress_lazy_state(  m_problem.task().actions()[ n->action() ] );	
-			const bool is_goal = m_problem.goal( *( n->state() ) ); 
+			n->parent()->state()->progress_lazy_state(  m_problem.task().actions()[ n->action() ] );
+			/** chao edit
+			 *
+			 */
+			const bool is_goal = m_problem.goal( *( n->parent()->state()) );
 			n->parent()->state()->regress_lazy_state( m_problem.task().actions()[ n->action() ] );
 			return is_goal;
 		}

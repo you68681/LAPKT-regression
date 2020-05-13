@@ -274,7 +274,7 @@ int main( int argc, char** argv ) {
 	std::cout << "Starting search with IW (time budget is 60 secs)..." << std::endl;
 
 	SIW_Fwd siw_engine( search_prob );
-	//siw_engine.set_goal_agenda( &graph );
+	siw_engine.set_goal_agenda( &graph );
 	
 	float iw_bound = vm["bound"].as<int>();
 
